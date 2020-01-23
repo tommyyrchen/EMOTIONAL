@@ -1,0 +1,2 @@
+# EMOTIONAL
+MCU --> ATtiny1616
