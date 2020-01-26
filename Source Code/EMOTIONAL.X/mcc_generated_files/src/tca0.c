@@ -114,7 +114,7 @@ int8_t TCA0_Initialize()
     TCA0.SINGLE.CMP0 = 0x1F;
 
     //Compare 1
-    TCA0.SINGLE.CMP1 = 0x1F;
+    TCA0.SINGLE.CMP1 = 0x3F;
 
     //Compare 2
     TCA0.SINGLE.CMP2 = 0x1F;
@@ -122,8 +122,8 @@ int8_t TCA0_Initialize()
     //Count
     TCA0.SINGLE.CNT = 0x00;
 
-    //CMP2EN disabled; CMP1EN disabled; CMP0EN disabled; ALUPD disabled; WGMODE SINGLESLOPE; 
-    TCA0.SINGLE.CTRLB = 0x03;
+    //CMP2EN disabled; CMP1EN enabled; CMP0EN disabled; ALUPD disabled; WGMODE SINGLESLOPE; 
+    TCA0.SINGLE.CTRLB = 0x23;
 
     //CMP2OV enabled; CMP1OV enabled; CMP0OV enabled; 
     TCA0.SINGLE.CTRLC = 0x07;
@@ -149,14 +149,14 @@ int8_t TCA0_Initialize()
     //EVACT POSEDGE; CNTEI disabled; 
     TCA0.SINGLE.EVCTRL = 0x00;
 
-    //CMP2 disabled; CMP1 disabled; CMP0 disabled; OVF enabled; 
-    TCA0.SINGLE.INTCTRL = 0x01;
+    //CMP2 disabled; CMP1 disabled; CMP0 disabled; OVF disabled; 
+    TCA0.SINGLE.INTCTRL = 0x00;
 
     //CMP2 disabled; CMP1 disabled; CMP0 disabled; OVF disabled; 
     TCA0.SINGLE.INTFLAGS = 0x00;
 
     //Period
-    TCA0.SINGLE.PER = 0x63F;
+    TCA0.SINGLE.PER = 0x13F;
 
     //Temporary data for 16-bit Access
     TCA0.SINGLE.TEMP = 0x00;
