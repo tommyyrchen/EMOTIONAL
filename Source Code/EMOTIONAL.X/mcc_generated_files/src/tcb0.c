@@ -51,11 +51,39 @@ struct SW_Struct
     volatile uint8_t u8SwPowerDelay;
     volatile uint8_t u8SwModeDelay;
     volatile bool bSWPower;
+    volatile bool bSWPowerDelay;
     volatile bool bSWMode;
+    volatile bool bSWModeDelay;
 }SW_Struct_t;
 
 #define SW_POWER_DELAY 19   // 300ms/16ms
 #define SW_MODE_DELAY 19    // 300ms/16ms
+
+enum LED_STATE_ENUM
+{
+    LED_OFF = 0,
+    LED_GREEN_SOLID = 1,
+    LED_GREEN_BLINK_2HZ = 2,
+    LED_GREEN_BLINK_2HZ_1_TIMES = 3,
+    LED_GREEN_BLINK_2HZ_2_TIMES = 4,
+    LED_GREEN_BLINK_2HZ_3_TIMES = 5,
+    LED_GREEN_BLINK_2HZ_4_TIMES = 6,
+    LED_GREEN_BLINK_2HZ_5_TIMES = 7,    
+    LED_ORANGE_SOLID = 8,
+    LED_ORANGE_BLINK_2HZ_1_TIMES = 9,
+    LED_RED_SOLID = 10,
+    LED_RED_BLINK_2HZ = 11,
+}LED_STATE;
+
+struct LED_Struct
+{
+    volatile uint8_t u8LedState;
+    volatile uint8_t u8PreLedState;
+    volatile uint8_t u8Delay;
+    volatile uint8_t u8Times;
+}LED_Struct_t;
+
+#define LED_BLINK_2HZ_DELAY 31  // 500ms/16ms
 
 /**
  * \brief Initialize tcb interface
@@ -73,18 +101,70 @@ void TCB0_SetCaptIsrCallback(TCB0_cb_t cb)
 ISR(TCB0_INT_vect)
 {
 	/* Insert your TCB interrupt handling code */
-    static int cnt = 0;
-    if(cnt > 62)
+//    static int cnt = 0;
+//    if(cnt > 62)
+//    {
+//        cnt = 0 ;
+//        IO_PC0_Toggle();
+//        IO_PC1_SetHigh();
+//    }
+//    else
+//    {
+//        cnt++;
+//    }
+    
+#if 1
+    LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ;
+    /* LED Indicator */
+    switch (LED_Struct_t.u8LedState)
     {
-        cnt = 0 ;
-        IO_PC0_Toggle();
-        IO_PC1_SetHigh();
+        case LED_OFF:
+            IO_PC0_SetHigh();
+            IO_PC1_SetHigh();
+            break;
+        case LED_GREEN_SOLID:
+            IO_PC0_SetHigh();
+            IO_PC1_SetLow();            
+            break;
+        case LED_GREEN_BLINK_2HZ:
+            if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+            {
+                LED_Struct_t.u8Delay++;
+            }
+            else
+            {
+                LED_Struct_t.u8Delay = 0;
+                IO_PC0_SetHigh();
+                IO_PC1_Toggle();                
+            }
+            break;
+        case LED_GREEN_BLINK_2HZ_1_TIMES:
+            break;
+        case LED_GREEN_BLINK_2HZ_2_TIMES:
+            break;
+        case LED_GREEN_BLINK_2HZ_3_TIMES:
+            break;
+        case LED_GREEN_BLINK_2HZ_4_TIMES:
+            break;
+        case LED_GREEN_BLINK_2HZ_5_TIMES:
+            break;
+        case LED_ORANGE_SOLID:
+            IO_PC0_SetLow();
+            IO_PC1_SetLow();            
+            break;
+        case LED_ORANGE_BLINK_2HZ_1_TIMES:
+            break;
+        case LED_RED_SOLID:
+            IO_PC0_SetLow();
+            IO_PC1_SetHigh();            
+            break;
+        case LED_RED_BLINK_2HZ:
+            break;
+        default:
+            break;
     }
-    else
-    {
-        cnt++;
-    }
-
+#endif
+    
 #if 1
     /* PB Switch Detection */
     
@@ -97,12 +177,17 @@ ISR(TCB0_INT_vect)
         }
         else
         {
-            SW_Struct_t.bSWPower ^= 1;
+            SW_Struct_t.bSWPowerDelay = true;
         }
     }
     else
     {
         SW_Struct_t.u8SwPowerDelay = 0;
+        if(SW_Struct_t.bSWPowerDelay == true)
+        {
+            SW_Struct_t.bSWPower ^= 1;
+        }
+        SW_Struct_t.bSWPowerDelay = false;
     }
     
     // Mode Switch
@@ -114,12 +199,17 @@ ISR(TCB0_INT_vect)
         }
         else
         {
-            SW_Struct_t.bSWMode = true;
+            SW_Struct_t.bSWModeDelay = true;
         }
     }
     else
     {
         SW_Struct_t.u8SwModeDelay = 0;
+        if(SW_Struct_t.bSWModeDelay == true)
+        {
+            SW_Struct_t.bSWMode = true;
+        }
+        SW_Struct_t.bSWModeDelay = false;
     }
 #endif
     
@@ -151,6 +241,7 @@ ISR(TCB0_INT_vect)
             case PWM_ON:
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 u16PwmState = PWM_ON_DELAY;
+                i16Cnt = 0;
                 break;
             case PWM_ON_DELAY:
                 if(i16Cnt > T_HOLD_BRIGHT)
@@ -184,6 +275,7 @@ ISR(TCB0_INT_vect)
             case PWM_OFF:
                 TCA0.SINGLE.CMP1 = 0x00;        // set PWM duty = 0;
                 u16PwmState = PWM_OFF_DELAY;
+                i16Cnt = 0;
                 break;
             case PWM_OFF_DELAY:
                 if(i16Cnt > T_HOLD_DULL)
