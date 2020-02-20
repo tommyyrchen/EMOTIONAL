@@ -24,6 +24,7 @@
 #include "../include/tcb0.h"
 #include "../include/pin_manager.h"
 #include "../mcc.h"
+#include "../include/adc0.h"
 
 volatile int16_t i16Cnt = 0;
 volatile uint16_t u16PwmDutyTemp = 0;
@@ -294,7 +295,7 @@ ISR(TCB0_INT_vect)
     /* PB Switch Detection */
     
     // Power Switch
-    if(SW_POPWER_GetValue() != 0)
+    if(SW_POWER_GetValue() != 0)
     {
         if(SW_Struct_t.u8SwPowerDelay < SW_POWER_DELAY)
         {
@@ -336,7 +337,7 @@ ISR(TCB0_INT_vect)
             }
             else
             {
-                
+                SW_Struct_t.bSwModeResetDelay = true;
             }
         }
     }
@@ -348,6 +349,13 @@ ISR(TCB0_INT_vect)
             SW_Struct_t.bSWMode = true;
         }
         SW_Struct_t.bSWModeDelay = false;
+        
+        SW_Struct_t.u16SwModeResetDelay = 0;
+        if(SW_Struct_t.bSwModeResetDelay == true)
+        {
+            SW_Struct_t.bSwModeReset = true;
+        }
+        SW_Struct_t.bSwModeResetDelay = false;
     }
 #endif
     
@@ -435,7 +443,25 @@ ISR(TCB0_INT_vect)
         TCA0.SINGLE.CMP1 = 0x00;        // set PWM duty = 0;
         u16PwmState = PWM_RAMP_ON;
     }
-#endif    
+#endif
+
+#if 1
+    // Battery Capacity Detection
+    if(System_State_Struc_t.bAdcStart == true)
+    {
+        if(System_State_Struc_t.u16Battery < BATTERY_LOW_VOLTAGE)
+        {
+            System_State_Struc_t.bBatteryLow = true;
+            if(System_State_Struc_t.u16Battery < BATTERY_ULTRA_LOW_VOLTAGE)
+            {
+                System_State_Struc_t.bBatteryUltraLow = true;
+            }
+        }
+        ADC0_StartConversion(ADC_MUXPOS_AIN5_gc);
+        System_State_Struc_t.bAdcStart = false;
+    }
+#endif
+    
 	/**
 	 * The interrupt flag is cleared by writing 1 to it, or when the Capture register
 	 * is read in Capture mode

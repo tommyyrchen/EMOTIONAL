@@ -19,6 +19,7 @@
           <itemPath>mcc_generated_files/include/protected_io.h</itemPath>
           <itemPath>mcc_generated_files/include/pin_manager.h</itemPath>
           <itemPath>mcc_generated_files/include/tcb0.h</itemPath>
+          <itemPath>mcc_generated_files/include/adc0.h</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <logicalFolder name="assembler" displayName="assembler" projectFiles="true">
@@ -51,6 +52,7 @@
           <itemPath>mcc_generated_files/src/tca0.c</itemPath>
           <itemPath>mcc_generated_files/src/protected_io.S</itemPath>
           <itemPath>mcc_generated_files/src/tcb0.c</itemPath>
+          <itemPath>mcc_generated_files/src/adc0.c</itemPath>
         </logicalFolder>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
@@ -110,7 +112,7 @@
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
-        <property key="disable-optimizations" value="false"/>
+        <property key="disable-optimizations" value="true"/>
         <property key="extra-include-directories" value=""/>
         <property key="favor-optimization-for" value="-speed,+space"/>
         <property key="garbage-collect-data" value="true"/>
@@ -124,7 +126,7 @@
         <property key="optimization-debug" value="false"/>
         <property key="optimization-invariant-enable" value="false"/>
         <property key="optimization-invariant-value" value="16"/>
-        <property key="optimization-level" value="-O1"/>
+        <property key="optimization-level" value="-O0"/>
         <property key="optimization-speed" value="false"/>
         <property key="optimization-stable-enable" value="false"/>
         <property key="pack-struct" value="true"/>
@@ -210,7 +212,7 @@
         <property key="communication.interface" value="updi"/>
         <property key="communication.interface.jtag" value="2wire"/>
         <property key="communication.speed" value="0.500"/>
-        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="debugoptions.useswbreakpoints" value="true"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>

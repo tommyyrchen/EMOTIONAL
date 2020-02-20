@@ -23,11 +23,11 @@ build/default/production/mcc_generated_files/mcc.o.d \
  mcc_generated_files/include/pin_manager.h \
  mcc_generated_files/include/port.h \
  mcc_generated_files/include/../utils/compiler.h \
- mcc_generated_files/include/tcb0.h mcc_generated_files/include/cpuint.h \
+ mcc_generated_files/include/adc0.h mcc_generated_files/include/cpuint.h \
  mcc_generated_files/include/ccp.h \
  mcc_generated_files/include/../include/protected_io.h \
  mcc_generated_files/include/../utils/atomic.h \
- mcc_generated_files/include/tca0.h \
+ mcc_generated_files/include/tcb0.h mcc_generated_files/include/tca0.h \
  mcc_generated_files/config/clock_config.h
 
 mcc_generated_files/mcc.h:
@@ -76,7 +76,7 @@ mcc_generated_files/include/port.h:
 
 mcc_generated_files/include/../utils/compiler.h:
 
-mcc_generated_files/include/tcb0.h:
+mcc_generated_files/include/adc0.h:
 
 mcc_generated_files/include/cpuint.h:
 
@@ -85,6 +85,8 @@ mcc_generated_files/include/ccp.h:
 mcc_generated_files/include/../include/protected_io.h:
 
 mcc_generated_files/include/../utils/atomic.h:
+
+mcc_generated_files/include/tcb0.h:
 
 mcc_generated_files/include/tca0.h:
 

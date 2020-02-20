@@ -30,8 +30,9 @@ extern "C" {
 
 #include "utils/compiler.h"
 #include "include/pin_manager.h"
-#include "include/tcb0.h"
+#include "include/adc0.h"
 #include "include/cpuint.h"
+#include "include/tcb0.h"
 #include "include/tca0.h"
 #include "config/clock_config.h"
 
@@ -41,8 +42,7 @@ enum SYSTEM_STATE_ENUM
     SYSTEM_POWER_OFF = 1,
     SYSTEM_POWER_ON = 2,
     SYSTEM_MODE_SETTING = 3,
-    SYSTEM_MODE_RESET = 4,
-    SYSTEM_POWER_LOW = 5,
+    SYSTEM_POWER_LOW = 4,
 }SYSTEM_STATE;
 
 enum SYSTEM_SUB_STATE_ENUM
@@ -60,7 +60,14 @@ struct System_State_StrucT
     uint8_t u8SubState;
     uint8_t u8PreSubState;
     uint8_t u8SubMode;
+    volatile bool bAdcStart;
+    volatile uint16_t u16Battery;
+    volatile bool bBatteryLow;
+    volatile bool bBatteryUltraLow;
 }System_State_Struc_t;
+
+#define BATTERY_LOW_VOLTAGE         2517    // (1.1/3.58) x 1024 x 8
+#define BATTERY_ULTRA_LOW_VOLTAGE   2403    // (1.05/3.58) x 1024 x 8
 /**
  * Initializes MCU, drivers and middleware in the project
 **/

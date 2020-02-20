@@ -92,6 +92,8 @@ struct SW_Struct
     volatile bool bSWMode;
     volatile bool bSWModeDelay;
     volatile uint16_t u16SwModeResetDelay;
+    volatile bool bSwModeResetDelay;
+    volatile bool bSwModeReset;
 }SW_Struct_t;
 
 struct LED_Struct

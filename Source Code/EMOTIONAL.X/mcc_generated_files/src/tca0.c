@@ -111,13 +111,13 @@ ISR(TCA0_OVF_vect)
 int8_t TCA0_Initialize()
 {
     //Compare 0
-    TCA0.SINGLE.CMP0 = 0x1F;
+    TCA0.SINGLE.CMP0 = 0x00;
 
     //Compare 1
-    TCA0.SINGLE.CMP1 = 0x3F;
+    TCA0.SINGLE.CMP1 = 0x00;
 
     //Compare 2
-    TCA0.SINGLE.CMP2 = 0x1F;
+    TCA0.SINGLE.CMP2 = 0x00;
 
     //Count
     TCA0.SINGLE.CNT = 0x00;

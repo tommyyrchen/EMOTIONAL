@@ -25,13 +25,15 @@ build/default/production/mcc_generated_files/src/tcb0.o.d \
  mcc_generated_files/src/../mcc.h \
  mcc_generated_files/src/../utils/compiler.h \
  mcc_generated_files/src/../include/pin_manager.h \
- mcc_generated_files/src/../include/tcb0.h \
+ mcc_generated_files/src/../include/adc0.h \
  mcc_generated_files/src/../include/cpuint.h \
  mcc_generated_files/src/../include/ccp.h \
  mcc_generated_files/src/../include/../include/protected_io.h \
  mcc_generated_files/src/../include/../utils/atomic.h \
+ mcc_generated_files/src/../include/tcb0.h \
  mcc_generated_files/src/../include/tca0.h \
- mcc_generated_files/src/../config/clock_config.h
+ mcc_generated_files/src/../config/clock_config.h \
+ mcc_generated_files/src/../include/adc0.h
 
 mcc_generated_files/src/../include/tcb0.h:
 
@@ -83,7 +85,7 @@ mcc_generated_files/src/../utils/compiler.h:
 
 mcc_generated_files/src/../include/pin_manager.h:
 
-mcc_generated_files/src/../include/tcb0.h:
+mcc_generated_files/src/../include/adc0.h:
 
 mcc_generated_files/src/../include/cpuint.h:
 
@@ -93,6 +95,10 @@ mcc_generated_files/src/../include/../include/protected_io.h:
 
 mcc_generated_files/src/../include/../utils/atomic.h:
 
+mcc_generated_files/src/../include/tcb0.h:
+
 mcc_generated_files/src/../include/tca0.h:
 
 mcc_generated_files/src/../config/clock_config.h:
+
+mcc_generated_files/src/../include/adc0.h:
