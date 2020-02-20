@@ -35,6 +35,32 @@ extern "C" {
 #include "include/tca0.h"
 #include "config/clock_config.h"
 
+enum SYSTEM_STATE_ENUM
+{
+    SYSTEM_INIT = 0,
+    SYSTEM_POWER_OFF = 1,
+    SYSTEM_POWER_ON = 2,
+    SYSTEM_MODE_SETTING = 3,
+    SYSTEM_MODE_RESET = 4,
+    SYSTEM_POWER_LOW = 5,
+}SYSTEM_STATE;
+
+enum SYSTEM_SUB_STATE_ENUM
+{
+    SYSTEM_SUB_INIT = 0,
+    SYSTEM_SUB_MODE_1 = 1,
+    SYSTEM_SUB_MODE_2 = 2,
+    SYSTEM_SUB_MODE_3 = 3,
+    SYSTEM_SUB_MODE_4 = 4,
+}SYSTEM_SUB_STATE;
+
+struct System_State_StrucT
+{
+    uint8_t u8MainState;
+    uint8_t u8SubState;
+    uint8_t u8PreSubState;
+    uint8_t u8SubMode;
+}System_State_Struc_t;
 /**
  * Initializes MCU, drivers and middleware in the project
 **/

@@ -23,67 +23,14 @@
 
 #include "../include/tcb0.h"
 #include "../include/pin_manager.h"
-
-#define T_HOLD_BRIGHT   197
-#define T_HOLD_DULL     108
+#include "../mcc.h"
 
 volatile int16_t i16Cnt = 0;
 volatile uint16_t u16PwmDutyTemp = 0;
 volatile uint16_t u16PwmDutyStep = 0;
-volatile uint16_t u16PwmDutyTarget = 160;
-
-enum PWM_CONTROL_NNUM
-{
-    PWM_RAMP_ON = 0,
-    PWM_RAMP_ON_DELAY = 1,
-    PWM_ON = 2,
-    PWM_ON_DELAY = 3,
-    PWM_RAMP_OFF = 4,
-    PWM_RAMP_OFF_DELAY = 5,
-    PWM_OFF = 6,
-    PWM_OFF_DELAY = 7,    
-}PWM_CONTROL;
-
+volatile uint16_t u16PwmDutyTarget = PWM_DUTY_DEFAULT;
 volatile uint16_t u16PwmState = PWM_OFF;
-
-struct SW_Struct
-{
-    volatile uint8_t u8SwPowerDelay;
-    volatile uint8_t u8SwModeDelay;
-    volatile bool bSWPower;
-    volatile bool bSWPowerDelay;
-    volatile bool bSWMode;
-    volatile bool bSWModeDelay;
-}SW_Struct_t;
-
-#define SW_POWER_DELAY 19   // 300ms/16ms
-#define SW_MODE_DELAY 19    // 300ms/16ms
-
-enum LED_STATE_ENUM
-{
-    LED_OFF = 0,
-    LED_GREEN_SOLID = 1,
-    LED_GREEN_BLINK_2HZ = 2,
-    LED_GREEN_BLINK_2HZ_1_TIMES = 3,
-    LED_GREEN_BLINK_2HZ_2_TIMES = 4,
-    LED_GREEN_BLINK_2HZ_3_TIMES = 5,
-    LED_GREEN_BLINK_2HZ_4_TIMES = 6,
-    LED_GREEN_BLINK_2HZ_5_TIMES = 7,    
-    LED_ORANGE_SOLID = 8,
-    LED_ORANGE_BLINK_2HZ_1_TIMES = 9,
-    LED_RED_SOLID = 10,
-    LED_RED_BLINK_2HZ = 11,
-}LED_STATE;
-
-struct LED_Struct
-{
-    volatile uint8_t u8LedState;
-    volatile uint8_t u8PreLedState;
-    volatile uint8_t u8Delay;
-    volatile uint8_t u8Times;
-}LED_Struct_t;
-
-#define LED_BLINK_2HZ_DELAY 31  // 500ms/16ms
+volatile uint16_t u16PwmMode = PWM_MODE_DEFAULT;
 
 /**
  * \brief Initialize tcb interface
@@ -101,30 +48,25 @@ void TCB0_SetCaptIsrCallback(TCB0_cb_t cb)
 ISR(TCB0_INT_vect)
 {
 	/* Insert your TCB interrupt handling code */
-//    static int cnt = 0;
-//    if(cnt > 62)
-//    {
-//        cnt = 0 ;
-//        IO_PC0_Toggle();
-//        IO_PC1_SetHigh();
-//    }
-//    else
-//    {
-//        cnt++;
-//    }
     
 #if 1
-    LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ;
     /* LED Indicator */
+    if(LED_Struct_t.u8PreLedState != LED_Struct_t.u8LedState)
+    {
+        LED_Struct_t.u8Times = 0;
+    }
+    
     switch (LED_Struct_t.u8LedState)
     {
         case LED_OFF:
             IO_PC0_SetHigh();
             IO_PC1_SetHigh();
+            LED_Struct_t.u8Times = 0;
             break;
         case LED_GREEN_SOLID:
             IO_PC0_SetHigh();
-            IO_PC1_SetLow();            
+            IO_PC1_SetLow();
+            LED_Struct_t.u8Times = 0;
             break;
         case LED_GREEN_BLINK_2HZ:
             if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
@@ -137,32 +79,215 @@ ISR(TCB0_INT_vect)
                 IO_PC0_SetHigh();
                 IO_PC1_Toggle();                
             }
+            LED_Struct_t.u8Times = 0;
             break;
         case LED_GREEN_BLINK_2HZ_1_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_1_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetLow();                    
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }
             break;
         case LED_GREEN_BLINK_2HZ_2_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_2_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetLow();                    
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }            
             break;
         case LED_GREEN_BLINK_2HZ_3_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_3_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetLow();   
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }            
             break;
         case LED_GREEN_BLINK_2HZ_4_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_4_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetLow();                    
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }            
             break;
         case LED_GREEN_BLINK_2HZ_5_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_5_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetLow();                    
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }            
             break;
         case LED_ORANGE_SOLID:
             IO_PC0_SetLow();
-            IO_PC1_SetLow();            
+            IO_PC1_SetLow();
+            LED_Struct_t.u8Times = 0;
             break;
         case LED_ORANGE_BLINK_2HZ_1_TIMES:
+            if(LED_Struct_t.u8Times < LED_BLINK_2HZ_1_TIMES)
+            {
+                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                {
+                    LED_Struct_t.u8Delay++;
+                }
+                else
+                {
+                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u8Times++;               
+                }
+                if((LED_Struct_t.u8Times & 0x01) == 0)
+                {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();                    
+                }
+                else
+                {
+                    IO_PC0_SetLow();
+                    IO_PC1_SetLow();                    
+                }
+            }
+            else
+            {
+                    IO_PC0_SetHigh();
+                    IO_PC1_SetHigh();
+                    //LED_Struct_t.u8Times = 0;
+            }            
             break;
         case LED_RED_SOLID:
             IO_PC0_SetLow();
-            IO_PC1_SetHigh();            
+            IO_PC1_SetHigh();
+            LED_Struct_t.u8Times = 0;
             break;
         case LED_RED_BLINK_2HZ:
+            if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+            {
+                LED_Struct_t.u8Delay++;
+            }
+            else
+            {
+                LED_Struct_t.u8Delay = 0;
+                IO_PC0_Toggle();
+                IO_PC1_SetHigh();                
+            }
+            LED_Struct_t.u8Times = 0;            
             break;
         default:
             break;
     }
+    LED_Struct_t.u8PreLedState = LED_Struct_t.u8LedState; 
 #endif
     
 #if 1
@@ -200,6 +325,19 @@ ISR(TCB0_INT_vect)
         else
         {
             SW_Struct_t.bSWModeDelay = true;
+        }
+        
+        //
+        if(System_State_Struc_t.u8MainState == SYSTEM_POWER_ON)
+        {
+            if(SW_Struct_t.u16SwModeResetDelay < SW_MODE_RESET_DELAY)
+            {
+                SW_Struct_t.u16SwModeResetDelay++; 
+            }
+            else
+            {
+                
+            }
         }
     }
     else
