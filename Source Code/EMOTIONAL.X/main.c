@@ -211,6 +211,12 @@ int main(void)
                 }
                 else if(SW_Struct_t.bSwMS == true)
                 {
+                    SW_Struct_t.bSwMS = false;
+                    System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                }
+                else if(SW_Struct_t.bSwMSReset == true)
+                {
+                    SW_Struct_t.bSwMSReset = false;
                     System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
                 }
                 

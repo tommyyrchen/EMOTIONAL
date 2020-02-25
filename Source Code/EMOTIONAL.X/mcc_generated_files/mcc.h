@@ -65,6 +65,7 @@ struct System_State_StrucT
     volatile bool bBatteryLow;
     volatile bool bBatteryUltraLow;
     volatile bool bPWM_ON;
+    volatile uint8_t u8BatteryLowDelay;
 }System_State_Struc_t;
 
 #define BATTERY_LOW_VOLTAGE         2635    // (1.1/3.42) x 1024 x 8

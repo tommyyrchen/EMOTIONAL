@@ -325,6 +325,8 @@ ISR(TCB0_INT_vect)
         {
             SW_Struct_t.bSWPowerDelay = true;
         }
+        
+        SW_Struct_t.u16SwMSResetDelay = 0;
     }
     else
     {
@@ -335,6 +337,8 @@ ISR(TCB0_INT_vect)
             SW_Struct_t.bSWPower = true;
         }
         SW_Struct_t.bSWPowerDelay = false;
+        
+        //SW_Struct_t.u16SwModeResetDelay = 0;
     }
     
     // Mode Switch
@@ -361,6 +365,8 @@ ISR(TCB0_INT_vect)
                 SW_Struct_t.bSwModeResetDelay = true;
             }
         }
+        
+        SW_Struct_t.u16SwMSResetDelay = 0;
     }
     else
     {
@@ -377,6 +383,25 @@ ISR(TCB0_INT_vect)
             SW_Struct_t.bSwModeReset = true;
         }
         SW_Struct_t.bSwModeResetDelay = false;
+        
+        //SW_Struct_t.u16SwModeResetDelay = 0;
+    }
+    
+    if(System_State_Struc_t.u8MainState == SYSTEM_MODE_SETTING)
+    {
+        if(SW_Struct_t.u16SwMSResetDelay < SW_MS_RESET_DELAY)
+        {
+            SW_Struct_t.u16SwMSResetDelay++;
+        }
+        else
+        {
+            SW_Struct_t.bSwMSReset = true;
+        }
+    }
+    else
+    {
+        SW_Struct_t.u16SwMSResetDelay = 0;
+        SW_Struct_t.bSwMSReset = false;
     }
 #endif
     
@@ -473,11 +498,25 @@ ISR(TCB0_INT_vect)
     {
         if(System_State_Struc_t.u16Battery < BATTERY_LOW_VOLTAGE)
         {
-            System_State_Struc_t.bBatteryLow = true;
-            if(System_State_Struc_t.u16Battery < BATTERY_ULTRA_LOW_VOLTAGE)
+            if(System_State_Struc_t.u8BatteryLowDelay < BATTERY_LOW_DELAY)
             {
-                System_State_Struc_t.bBatteryUltraLow = true;
+                System_State_Struc_t.u8BatteryLowDelay++;
             }
+            else
+            {
+                System_State_Struc_t.bBatteryLow = true;
+            }
+            if(System_State_Struc_t.bBatteryLow == true)
+            {
+                if(System_State_Struc_t.u16Battery < BATTERY_ULTRA_LOW_VOLTAGE)
+                {
+                    System_State_Struc_t.bBatteryUltraLow = true;
+                }
+            }
+        }
+        else
+        {
+            System_State_Struc_t.u8BatteryLowDelay = 0;
         }
         ADC0_StartConversion(ADC_MUXPOS_AIN5_gc);
         System_State_Struc_t.bAdcStart = false;
