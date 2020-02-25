@@ -64,10 +64,11 @@ struct System_State_StrucT
     volatile uint16_t u16Battery;
     volatile bool bBatteryLow;
     volatile bool bBatteryUltraLow;
+    volatile bool bPWM_ON;
 }System_State_Struc_t;
 
-#define BATTERY_LOW_VOLTAGE         2517    // (1.1/3.58) x 1024 x 8
-#define BATTERY_ULTRA_LOW_VOLTAGE   2403    // (1.05/3.58) x 1024 x 8
+#define BATTERY_LOW_VOLTAGE         2635    // (1.1/3.42) x 1024 x 8
+#define BATTERY_ULTRA_LOW_VOLTAGE   2515    // (1.05/3.42) x 1024 x 8
 /**
  * Initializes MCU, drivers and middleware in the project
 **/

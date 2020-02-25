@@ -293,6 +293,26 @@ ISR(TCB0_INT_vect)
     
 #if 1
     /* PB Switch Detection */
+    if(SW_POWER_GetValue() != 0 && SW_MODE_GetValue() != 0)
+    {
+        if(SW_Struct_t.u16SwMSDelay < SW_MS_DELAY)
+        {
+            SW_Struct_t.u16SwMSDelay++;
+        }
+        else
+        {
+            SW_Struct_t.bSwMSDelay = true;
+        }
+    }
+    else
+    {
+        SW_Struct_t.u16SwMSDelay = 0;
+        if(SW_Struct_t.bSwMSDelay == true)
+        {
+            SW_Struct_t.bSwMS = true;
+        }
+        SW_Struct_t.bSwMSDelay = false;
+    }
     
     // Power Switch
     if(SW_POWER_GetValue() != 0)
@@ -311,7 +331,8 @@ ISR(TCB0_INT_vect)
         SW_Struct_t.u8SwPowerDelay = 0;
         if(SW_Struct_t.bSWPowerDelay == true)
         {
-            SW_Struct_t.bSWPower ^= 1;
+            //SW_Struct_t.bSWPower ^= 1;
+            SW_Struct_t.bSWPower = true;
         }
         SW_Struct_t.bSWPowerDelay = false;
     }
@@ -362,7 +383,8 @@ ISR(TCB0_INT_vect)
 #if 1
     /* Motor Control Function */
     
-    if(SW_Struct_t.bSWPower == true)
+    //if(SW_Struct_t.bSWPower == true)
+    if(System_State_Struc_t.bPWM_ON == true)
     {
         switch (u16PwmState)
         {

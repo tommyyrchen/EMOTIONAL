@@ -42,10 +42,13 @@ extern "C" {
     
 #define SW_POWER_DELAY 19   // 300ms/16ms
 #define SW_MODE_DELAY 19    // 300ms/16ms
-#define SW_MODE_RESET_DELAY 312     // 5000ms/16ms  
+#define SW_MODE_RESET_DELAY 312     // 5000ms/16ms
+#define SW_MS_DELAY         312     // 5000ms/16ms    
 
 #define PWM_DUTY_DEFAULT 160    // 50% ==> 160/320    
 #define PWM_MODE_DEFAULT 0
+#define PWM_DUTY_MIN        160
+#define PWM_DUTY_MAX        320
     
 volatile extern int16_t i16Cnt;
 volatile extern uint16_t u16PwmDutyTemp;
@@ -94,6 +97,9 @@ struct SW_Struct
     volatile uint16_t u16SwModeResetDelay;
     volatile bool bSwModeResetDelay;
     volatile bool bSwModeReset;
+    volatile uint16_t u16SwMSDelay;
+    volatile bool bSwMSDelay;
+    volatile bool bSwMS;
 }SW_Struct_t;
 
 struct LED_Struct
