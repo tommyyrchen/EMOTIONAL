@@ -174,6 +174,8 @@ int main(void)
                             System_State_Struc_t.u8SubMode = 1;
                         }
                         System_State_Struc_t.u8SubState = System_State_Struc_t.u8SubMode;
+                        
+                        System_State_Struc_t.u32PowerOnTimeOutDelay = 0;
                     }
                 }
                 
@@ -186,6 +188,12 @@ int main(void)
                 else if(System_State_Struc_t.bBatteryUltraLow == true)
                 {
                     System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;                    
+                }
+                else if(System_State_Struc_t.bPowerOnTimeOut == true)
+                {
+                    System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                    System_State_Struc_t.bPowerOnTimeOut = false;
+                    System_State_Struc_t.u32PowerOnTimeOutDelay = 0;
                 }
                 
                 break;

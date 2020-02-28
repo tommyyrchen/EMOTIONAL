@@ -16,7 +16,7 @@ SYSTEM_STATE        0x1               build/default/production/mcc_generated_fil
 SW_Struct_t         0x11              build/default/production/mcc_generated_files/src/tcb0.o
 LED_Struct_t        0x4               build/default/production/mcc_generated_files/src/tcb0.o
 System_State_Struc_t
-                    0xb               build/default/production/mcc_generated_files/src/tcb0.o
+                    0x10              build/default/production/mcc_generated_files/src/tcb0.o
 SYSTEM_SUB_STATE    0x1               build/default/production/mcc_generated_files/src/tcb0.o
 
 Discarded input sections
@@ -72,15 +72,6 @@ Discarded input sections
                 0x00000000       0x22 build/default/production/mcc_generated_files/src/tcb0.o
  .text.TCB0_IsInterruptEnabled
                 0x00000000       0x2a build/default/production/mcc_generated_files/src/tcb0.o
- .text          0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
- .data          0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
- .bss           0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
- .text          0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
- .data          0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
- .bss           0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
- .text          0x00000000        0x0 build/default/production/main.o
- .data          0x00000000        0x0 build/default/production/main.o
- .bss           0x00000000        0x0 build/default/production/main.o
  .text          0x00000000        0x0 build/default/production/mcc_generated_files/src/adc0.o
  .data          0x00000000        0x0 build/default/production/mcc_generated_files/src/adc0.o
  .bss           0x00000000        0x0 build/default/production/mcc_generated_files/src/adc0.o
@@ -112,6 +103,15 @@ Discarded input sections
                 0x00000000       0x28 build/default/production/mcc_generated_files/src/adc0.o
  .text.ADC0_RegisterWindowCallback
                 0x00000000       0x26 build/default/production/mcc_generated_files/src/adc0.o
+ .text          0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
+ .data          0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
+ .bss           0x00000000        0x0 build/default/production/mcc_generated_files/device_config.o
+ .text          0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
+ .data          0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
+ .bss           0x00000000        0x0 build/default/production/mcc_generated_files/mcc.o
+ .text          0x00000000        0x0 build/default/production/main.o
+ .data          0x00000000        0x0 build/default/production/main.o
+ .bss           0x00000000        0x0 build/default/production/main.o
  .text          0x00000000        0x0 c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_exit.o)
@@ -183,10 +183,10 @@ LOAD build/default/production/mcc_generated_files/src/cpuint.o
 LOAD build/default/production/mcc_generated_files/src/tca0.o
 LOAD build/default/production/mcc_generated_files/src/protected_io.o
 LOAD build/default/production/mcc_generated_files/src/tcb0.o
+LOAD build/default/production/mcc_generated_files/src/adc0.o
 LOAD build/default/production/mcc_generated_files/device_config.o
 LOAD build/default/production/mcc_generated_files/mcc.o
 LOAD build/default/production/main.o
-LOAD build/default/production/mcc_generated_files/src/adc0.o
 START GROUP
 LOAD c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega3\libm.a
 END GROUP
@@ -395,26 +395,26 @@ END GROUP
                 0x00803800                _edata = .
                 [!provide]                PROVIDE (__data_end, .)
 
-.bss            0x00803800       0x24
+.bss            0x00803800       0x29
                 [!provide]                PROVIDE (__bss_start, .)
  *(COMMON)
- COMMON         0x00803800       0x24 build/default/production/mcc_generated_files/src/tcb0.o
+ COMMON         0x00803800       0x29 build/default/production/mcc_generated_files/src/tcb0.o
                 0x00803800                LED_STATE
                 0x00803801                PWM_CONTROL
                 0x00803802                SYSTEM_STATE
                 0x00803803                SW_Struct_t
                 0x00803814                LED_Struct_t
                 0x00803818                System_State_Struc_t
-                0x00803823                SYSTEM_SUB_STATE
+                0x00803828                SYSTEM_SUB_STATE
                 [!provide]                PROVIDE (__bss_end, .)
                 0x00000172                __data_load_start = LOADADDR (.data)
                 0x00000172                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00803824        0x0
+.noinit         0x00803829        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00803824                _end = .
+                0x00803829                _end = .
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -462,10 +462,10 @@ END GROUP
  .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/src/cpuint.o
  .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/src/tca0.o
  .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/src/tcb0.o
+ .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/src/adc0.o
  .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/device_config.o
  .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/mcc.o
  .comment       0x0000002f       0x30 build/default/production/main.o
- .comment       0x0000002f       0x30 build/default/production/mcc_generated_files/src/adc0.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -495,29 +495,29 @@ END GROUP
  .debug_aranges
                 0x000001a0       0x60 build/default/production/mcc_generated_files/src/tcb0.o
  .debug_aranges
-                0x00000200       0x18 build/default/production/mcc_generated_files/device_config.o
+                0x00000200       0xa8 build/default/production/mcc_generated_files/src/adc0.o
  .debug_aranges
-                0x00000218       0x50 build/default/production/mcc_generated_files/mcc.o
+                0x000002a8       0x18 build/default/production/mcc_generated_files/device_config.o
  .debug_aranges
-                0x00000268       0x20 build/default/production/main.o
+                0x000002c0       0x50 build/default/production/mcc_generated_files/mcc.o
  .debug_aranges
-                0x00000288       0xa8 build/default/production/mcc_generated_files/src/adc0.o
+                0x00000310       0x20 build/default/production/main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x85b7
+.debug_info     0x00000000     0x86e7
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x19ed C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/gcc/dev/attiny1616/avrxmega3/crtattiny1616.o
  .debug_info    0x000019ed      0xba6 build/default/production/mcc_generated_files/src/pin_manager.o
  .debug_info    0x00002593      0x37f build/default/production/mcc_generated_files/src/cpuint.o
  .debug_info    0x00002912     0x1028 build/default/production/mcc_generated_files/src/tca0.o
  .debug_info    0x0000393a       0x84 build/default/production/mcc_generated_files/src/protected_io.o
- .debug_info    0x000039be     0x1825 build/default/production/mcc_generated_files/src/tcb0.o
- .debug_info    0x000051e3      0x845 build/default/production/mcc_generated_files/device_config.o
- .debug_info    0x00005a28      0xe3f build/default/production/mcc_generated_files/mcc.o
- .debug_info    0x00006867      0xcae build/default/production/main.o
- .debug_info    0x00007515     0x10a2 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_info    0x000039be     0x1871 build/default/production/mcc_generated_files/src/tcb0.o
+ .debug_info    0x0000522f     0x10ee build/default/production/mcc_generated_files/src/adc0.o
+ .debug_info    0x0000631d      0x845 build/default/production/mcc_generated_files/device_config.o
+ .debug_info    0x00006b62      0xe8b build/default/production/mcc_generated_files/mcc.o
+ .debug_info    0x000079ed      0xcfa build/default/production/main.o
 
 .debug_abbrev   0x00000000     0x223d
  *(.debug_abbrev)
@@ -527,23 +527,23 @@ END GROUP
  .debug_abbrev  0x00001a41      0x18c build/default/production/mcc_generated_files/src/tca0.o
  .debug_abbrev  0x00001bcd       0x14 build/default/production/mcc_generated_files/src/protected_io.o
  .debug_abbrev  0x00001be1      0x1ed build/default/production/mcc_generated_files/src/tcb0.o
- .debug_abbrev  0x00001dce       0x85 build/default/production/mcc_generated_files/device_config.o
- .debug_abbrev  0x00001e53      0x13f build/default/production/mcc_generated_files/mcc.o
- .debug_abbrev  0x00001f92       0xe0 build/default/production/main.o
- .debug_abbrev  0x00002072      0x1cb build/default/production/mcc_generated_files/src/adc0.o
+ .debug_abbrev  0x00001dce      0x1cb build/default/production/mcc_generated_files/src/adc0.o
+ .debug_abbrev  0x00001f99       0x85 build/default/production/mcc_generated_files/device_config.o
+ .debug_abbrev  0x0000201e      0x13f build/default/production/mcc_generated_files/mcc.o
+ .debug_abbrev  0x0000215d       0xe0 build/default/production/main.o
 
-.debug_line     0x00000000     0x1e3f
+.debug_line     0x00000000     0x1e87
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x151 C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/gcc/dev/attiny1616/avrxmega3/crtattiny1616.o
  .debug_line    0x00000151      0x435 build/default/production/mcc_generated_files/src/pin_manager.o
  .debug_line    0x00000586      0x16d build/default/production/mcc_generated_files/src/cpuint.o
  .debug_line    0x000006f3      0x3d5 build/default/production/mcc_generated_files/src/tca0.o
  .debug_line    0x00000ac8       0x66 build/default/production/mcc_generated_files/src/protected_io.o
- .debug_line    0x00000b2e      0x7df build/default/production/mcc_generated_files/src/tcb0.o
- .debug_line    0x0000130d       0xf2 build/default/production/mcc_generated_files/device_config.o
- .debug_line    0x000013ff      0x265 build/default/production/mcc_generated_files/mcc.o
- .debug_line    0x00001664      0x3c4 build/default/production/main.o
- .debug_line    0x00001a28      0x417 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_line    0x00000b2e      0x803 build/default/production/mcc_generated_files/src/tcb0.o
+ .debug_line    0x00001331      0x417 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_line    0x00001748       0xf2 build/default/production/mcc_generated_files/device_config.o
+ .debug_line    0x0000183a      0x265 build/default/production/mcc_generated_files/mcc.o
+ .debug_line    0x00001a9f      0x3e8 build/default/production/main.o
 
 .debug_frame    0x00000000      0xba4
  *(.debug_frame)
@@ -551,9 +551,9 @@ END GROUP
  .debug_frame   0x00000254       0x54 build/default/production/mcc_generated_files/src/cpuint.o
  .debug_frame   0x000002a8      0x384 build/default/production/mcc_generated_files/src/tca0.o
  .debug_frame   0x0000062c      0x178 build/default/production/mcc_generated_files/src/tcb0.o
- .debug_frame   0x000007a4      0x114 build/default/production/mcc_generated_files/mcc.o
- .debug_frame   0x000008b8       0x34 build/default/production/main.o
- .debug_frame   0x000008ec      0x2b8 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_frame   0x000007a4      0x2b8 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_frame   0x00000a5c      0x114 build/default/production/mcc_generated_files/mcc.o
+ .debug_frame   0x00000b70       0x34 build/default/production/main.o
 
 .debug_str      0x00000000      0xf9c
  *(.debug_str)
@@ -562,10 +562,10 @@ END GROUP
  .debug_str     0x00000b34        0x0 build/default/production/mcc_generated_files/src/cpuint.o
  .debug_str     0x00000b34      0x1e9 build/default/production/mcc_generated_files/src/tca0.o
  .debug_str     0x00000d1d      0x207 build/default/production/mcc_generated_files/src/tcb0.o
- .debug_str     0x00000f24        0x0 build/default/production/mcc_generated_files/device_config.o
- .debug_str     0x00000f24       0x70 build/default/production/mcc_generated_files/mcc.o
- .debug_str     0x00000f94        0x0 build/default/production/main.o
- .debug_str     0x00000f94        0x8 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_str     0x00000f24        0x8 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_str     0x00000f2c        0x0 build/default/production/mcc_generated_files/device_config.o
+ .debug_str     0x00000f2c       0x70 build/default/production/mcc_generated_files/mcc.o
+ .debug_str     0x00000f9c        0x0 build/default/production/main.o
 
 .debug_loc
  *(.debug_loc)
@@ -594,9 +594,9 @@ END GROUP
  .debug_ranges  0x00000098       0x18 build/default/production/mcc_generated_files/src/cpuint.o
  .debug_ranges  0x000000b0       0xa0 build/default/production/mcc_generated_files/src/tca0.o
  .debug_ranges  0x00000150       0x50 build/default/production/mcc_generated_files/src/tcb0.o
- .debug_ranges  0x000001a0       0x40 build/default/production/mcc_generated_files/mcc.o
- .debug_ranges  0x000001e0       0x10 build/default/production/main.o
- .debug_ranges  0x000001f0       0x98 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_ranges  0x000001a0       0x98 build/default/production/mcc_generated_files/src/adc0.o
+ .debug_ranges  0x00000238       0x40 build/default/production/mcc_generated_files/mcc.o
+ .debug_ranges  0x00000278       0x10 build/default/production/main.o
 
 .debug_macro
  *(.debug_macro)
@@ -610,405 +610,405 @@ LOAD data_init
                 0x00000000       0x40 C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/gcc/dev/attiny1616/avrxmega3/crtattiny1616.o
 
 .bss.PORTC_SW_POWER_InterruptHandler
-                0x00803824        0x2
+                0x00803829        0x2
  .bss.PORTC_SW_POWER_InterruptHandler
-                0x00803824        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00803829        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTB_PB2_InterruptHandler
-                0x00803826        0x2
+                0x0080382b        0x2
  .bss.PORTB_PB2_InterruptHandler
-                0x00803826        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x0080382b        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTA_PA5_InterruptHandler
-                0x00803828        0x2
+                0x0080382d        0x2
  .bss.PORTA_PA5_InterruptHandler
-                0x00803828        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x0080382d        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTC_IO_PC0_InterruptHandler
-                0x0080382a        0x2
+                0x0080382f        0x2
  .bss.PORTC_IO_PC0_InterruptHandler
-                0x0080382a        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x0080382f        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTC_SW_MODE_InterruptHandler
-                0x0080382c        0x2
+                0x00803831        0x2
  .bss.PORTC_SW_MODE_InterruptHandler
-                0x0080382c        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00803831        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTB_PB1_InterruptHandler
-                0x0080382e        0x2
+                0x00803833        0x2
  .bss.PORTB_PB1_InterruptHandler
-                0x0080382e        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00803833        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTC_IO_PC1_InterruptHandler
-                0x00803830        0x2
+                0x00803835        0x2
  .bss.PORTC_IO_PC1_InterruptHandler
-                0x00803830        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00803835        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
 .bss.PORTB_PB0_InterruptHandler
-                0x00803832        0x2
+                0x00803837        0x2
  .bss.PORTB_PB0_InterruptHandler
-                0x00803832        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00803837        0x2 build/default/production/mcc_generated_files/src/pin_manager.o
 
-.bss.i16Cnt     0x0080383c        0x2
- .bss.i16Cnt    0x0080383c        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x0080383c                i16Cnt
+.bss.i16Cnt     0x00803841        0x2
+ .bss.i16Cnt    0x00803841        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00803841                i16Cnt
 
 .bss.u16PwmDutyTemp
-                0x0080383e        0x2
+                0x00803843        0x2
  .bss.u16PwmDutyTemp
-                0x0080383e        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x0080383e                u16PwmDutyTemp
+                0x00803843        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00803843                u16PwmDutyTemp
 
 .bss.u16PwmDutyStep
-                0x00803840        0x2
+                0x00803845        0x2
  .bss.u16PwmDutyStep
-                0x00803840        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x00803840                u16PwmDutyStep
+                0x00803845        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00803845                u16PwmDutyStep
 
 .bss.u16PwmMode
-                0x00803846        0x2
+                0x0080384b        0x2
  .bss.u16PwmMode
-                0x00803846        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x00803846                u16PwmMode
+                0x0080384b        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x0080384b                u16PwmMode
 
 .bss.TCB0_CAPT_isr_cb
-                0x00803848        0x2
+                0x0080384d        0x2
  .bss.TCB0_CAPT_isr_cb
-                0x00803848        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x00803848                TCB0_CAPT_isr_cb
-
-.bss.i16Temp    0x0080384a        0x2
- .bss.i16Temp   0x0080384a        0x2 build/default/production/main.o
-                0x0080384a                i16Temp
+                0x0080384d        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x0080384d                TCB0_CAPT_isr_cb
 
 .bss.ADC0_window_cb
-                0x0080384c        0x2
+                0x0080384f        0x2
  .bss.ADC0_window_cb
-                0x0080384c        0x2 build/default/production/mcc_generated_files/src/adc0.o
-                0x0080384c                ADC0_window_cb
+                0x0080384f        0x2 build/default/production/mcc_generated_files/src/adc0.o
+                0x0080384f                ADC0_window_cb
+
+.bss.i16Temp    0x00803851        0x2
+ .bss.i16Temp   0x00803851        0x2 build/default/production/main.o
+                0x00803851                i16Temp
 
 .text.__vector_13
-                0x00000172      0x890
+                0x00000172      0x8f6
  .text.__vector_13
-                0x00000172      0x890 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00000172      0x8f6 build/default/production/mcc_generated_files/src/tcb0.o
                 0x00000172                __vector_13
 
-.text.main      0x00000a02      0x39a
- .text.main     0x00000a02      0x39a build/default/production/main.o
-                0x00000a02                main
+.text.main      0x00000a68      0x3ce
+ .text.main     0x00000a68      0x3ce build/default/production/main.o
+                0x00000a68                main
 
 .text.PIN_MANAGER_Initialize
-                0x00000d9c      0x16c
+                0x00000e36      0x16c
  .text.PIN_MANAGER_Initialize
-                0x00000d9c      0x16c build/default/production/mcc_generated_files/src/pin_manager.o
-                0x00000d9c                PIN_MANAGER_Initialize
+                0x00000e36      0x16c build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00000e36                PIN_MANAGER_Initialize
 
 .text.TCA0_Initialize
-                0x00000f08       0xb4
+                0x00000fa2       0xb4
  .text.TCA0_Initialize
-                0x00000f08       0xb4 build/default/production/mcc_generated_files/src/tca0.o
-                0x00000f08                TCA0_Initialize
+                0x00000fa2       0xb4 build/default/production/mcc_generated_files/src/tca0.o
+                0x00000fa2                TCA0_Initialize
 
 .text.PORT_Initialize
-                0x00000fbc       0xa4
+                0x00001056       0xa4
  .text.PORT_Initialize
-                0x00000fbc       0xa4 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x00000fbc                PORT_Initialize
+                0x00001056       0xa4 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001056                PORT_Initialize
 
 .text.ADC0_Initialize
-                0x00001060       0x84
+                0x000010fa       0x84
  .text.ADC0_Initialize
-                0x00001060       0x84 build/default/production/mcc_generated_files/src/adc0.o
-                0x00001060                ADC0_Initialize
+                0x000010fa       0x84 build/default/production/mcc_generated_files/src/adc0.o
+                0x000010fa                ADC0_Initialize
 
 .text.__vector_10
-                0x000010e4       0x78
+                0x0000117e       0x78
  .text.__vector_10
-                0x000010e4       0x78 build/default/production/mcc_generated_files/src/tca0.o
-                0x000010e4                __vector_10
+                0x0000117e       0x78 build/default/production/mcc_generated_files/src/tca0.o
+                0x0000117e                __vector_10
 
 .text.__vector_11
-                0x0000115c       0x78
+                0x000011f6       0x78
  .text.__vector_11
-                0x0000115c       0x78 build/default/production/mcc_generated_files/src/tca0.o
-                0x0000115c                __vector_11
+                0x000011f6       0x78 build/default/production/mcc_generated_files/src/tca0.o
+                0x000011f6                __vector_11
 
 .text.__vector_12
-                0x000011d4       0x78
+                0x0000126e       0x78
  .text.__vector_12
-                0x000011d4       0x78 build/default/production/mcc_generated_files/src/tca0.o
-                0x000011d4                __vector_12
+                0x0000126e       0x78 build/default/production/mcc_generated_files/src/tca0.o
+                0x0000126e                __vector_12
 
 .text.__vector_8
-                0x0000124c       0x78
+                0x000012e6       0x78
  .text.__vector_8
-                0x0000124c       0x78 build/default/production/mcc_generated_files/src/tca0.o
-                0x0000124c                __vector_8
+                0x000012e6       0x78 build/default/production/mcc_generated_files/src/tca0.o
+                0x000012e6                __vector_8
 
 .text.__vector_21
-                0x000012c4       0x78
+                0x0000135e       0x78
  .text.__vector_21
-                0x000012c4       0x78 build/default/production/mcc_generated_files/src/adc0.o
-                0x000012c4                __vector_21
+                0x0000135e       0x78 build/default/production/mcc_generated_files/src/adc0.o
+                0x0000135e                __vector_21
 
 .text.TCB0_Initialize
-                0x0000133c       0x64
+                0x000013d6       0x64
  .text.TCB0_Initialize
-                0x0000133c       0x64 build/default/production/mcc_generated_files/src/tcb0.o
-                0x0000133c                TCB0_Initialize
+                0x000013d6       0x64 build/default/production/mcc_generated_files/src/tcb0.o
+                0x000013d6                TCB0_Initialize
 
 .text.__vector_20
-                0x000013a0       0x5c
+                0x0000143a       0x5c
  .text.__vector_20
-                0x000013a0       0x5c build/default/production/mcc_generated_files/src/adc0.o
-                0x000013a0                __vector_20
+                0x0000143a       0x5c build/default/production/mcc_generated_files/src/adc0.o
+                0x0000143a                __vector_20
 
 .text.CLKCTRL_Initialize
-                0x000013fc       0x4c
+                0x00001496       0x4c
  .text.CLKCTRL_Initialize
-                0x000013fc       0x4c build/default/production/mcc_generated_files/mcc.o
-                0x000013fc                CLKCTRL_Initialize
+                0x00001496       0x4c build/default/production/mcc_generated_files/mcc.o
+                0x00001496                CLKCTRL_Initialize
 
 .text.__vector_2
-                0x00001448       0x44
+                0x000014e2       0x44
  .text.__vector_2
-                0x00001448       0x44 build/default/production/mcc_generated_files/mcc.o
-                0x00001448                __vector_2
+                0x000014e2       0x44 build/default/production/mcc_generated_files/mcc.o
+                0x000014e2                __vector_2
 
 .text.SYSTEM_Initialize
-                0x0000148c       0x34
+                0x00001526       0x34
  .text.SYSTEM_Initialize
-                0x0000148c       0x34 build/default/production/mcc_generated_files/mcc.o
-                0x0000148c                SYSTEM_Initialize
+                0x00001526       0x34 build/default/production/mcc_generated_files/mcc.o
+                0x00001526                SYSTEM_Initialize
 
 .text.ccp_write_io
-                0x000014c0       0x2c
+                0x0000155a       0x2c
  .text.ccp_write_io
-                0x000014c0       0x2c build/default/production/mcc_generated_files/src/cpuint.o
+                0x0000155a       0x2c build/default/production/mcc_generated_files/src/cpuint.o
 
 .text.CPUINT_Initialize
-                0x000014ec       0x2c
+                0x00001586       0x2c
  .text.CPUINT_Initialize
-                0x000014ec       0x2c build/default/production/mcc_generated_files/src/cpuint.o
-                0x000014ec                CPUINT_Initialize
+                0x00001586       0x2c build/default/production/mcc_generated_files/src/cpuint.o
+                0x00001586                CPUINT_Initialize
 
 .text.ccp_write_io
-                0x00001518       0x2c
+                0x000015b2       0x2c
  .text.ccp_write_io
-                0x00001518       0x2c build/default/production/mcc_generated_files/mcc.o
-
-.text.BOD_Initialize
-                0x00001544       0x2a
- .text.BOD_Initialize
-                0x00001544       0x2a build/default/production/mcc_generated_files/mcc.o
-                0x00001544                BOD_Initialize
+                0x000015b2       0x2c build/default/production/mcc_generated_files/mcc.o
 
 .text.ADC0_StartConversion
-                0x0000156e       0x2a
+                0x000015de       0x2a
  .text.ADC0_StartConversion
-                0x0000156e       0x2a build/default/production/mcc_generated_files/src/adc0.o
-                0x0000156e                ADC0_StartConversion
+                0x000015de       0x2a build/default/production/mcc_generated_files/src/adc0.o
+                0x000015de                ADC0_StartConversion
+
+.text.BOD_Initialize
+                0x00001608       0x2a
+ .text.BOD_Initialize
+                0x00001608       0x2a build/default/production/mcc_generated_files/mcc.o
+                0x00001608                BOD_Initialize
 
 .text.PORTC_SW_POWER_SetInterruptHandler
-                0x00001598       0x26
+                0x00001632       0x26
  .text.PORTC_SW_POWER_SetInterruptHandler
-                0x00001598       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x00001598                PORTC_SW_POWER_SetInterruptHandler
+                0x00001632       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001632                PORTC_SW_POWER_SetInterruptHandler
 
 .text.PORTB_PB2_SetInterruptHandler
-                0x000015be       0x26
+                0x00001658       0x26
  .text.PORTB_PB2_SetInterruptHandler
-                0x000015be       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x000015be                PORTB_PB2_SetInterruptHandler
+                0x00001658       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001658                PORTB_PB2_SetInterruptHandler
 
 .text.PORTA_PA5_SetInterruptHandler
-                0x000015e4       0x26
+                0x0000167e       0x26
  .text.PORTA_PA5_SetInterruptHandler
-                0x000015e4       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x000015e4                PORTA_PA5_SetInterruptHandler
+                0x0000167e       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x0000167e                PORTA_PA5_SetInterruptHandler
 
 .text.PORTC_IO_PC0_SetInterruptHandler
-                0x0000160a       0x26
+                0x000016a4       0x26
  .text.PORTC_IO_PC0_SetInterruptHandler
-                0x0000160a       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000160a                PORTC_IO_PC0_SetInterruptHandler
+                0x000016a4       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000016a4                PORTC_IO_PC0_SetInterruptHandler
 
 .text.PORTC_SW_MODE_SetInterruptHandler
-                0x00001630       0x26
+                0x000016ca       0x26
  .text.PORTC_SW_MODE_SetInterruptHandler
-                0x00001630       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x00001630                PORTC_SW_MODE_SetInterruptHandler
+                0x000016ca       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000016ca                PORTC_SW_MODE_SetInterruptHandler
 
 .text.PORTB_PB1_SetInterruptHandler
-                0x00001656       0x26
+                0x000016f0       0x26
  .text.PORTB_PB1_SetInterruptHandler
-                0x00001656       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x00001656                PORTB_PB1_SetInterruptHandler
+                0x000016f0       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000016f0                PORTB_PB1_SetInterruptHandler
 
 .text.PORTC_IO_PC1_SetInterruptHandler
-                0x0000167c       0x26
+                0x00001716       0x26
  .text.PORTC_IO_PC1_SetInterruptHandler
-                0x0000167c       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000167c                PORTC_IO_PC1_SetInterruptHandler
+                0x00001716       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001716                PORTC_IO_PC1_SetInterruptHandler
 
 .text.PORTB_PB0_SetInterruptHandler
-                0x000016a2       0x26
+                0x0000173c       0x26
  .text.PORTB_PB0_SetInterruptHandler
-                0x000016a2       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x000016a2                PORTB_PB0_SetInterruptHandler
+                0x0000173c       0x26 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x0000173c                PORTB_PB0_SetInterruptHandler
 
 .text.SLPCTRL_Initialize
-                0x000016c8       0x1a
+                0x00001762       0x1a
  .text.SLPCTRL_Initialize
-                0x000016c8       0x1a build/default/production/mcc_generated_files/mcc.o
-                0x000016c8                SLPCTRL_Initialize
+                0x00001762       0x1a build/default/production/mcc_generated_files/mcc.o
+                0x00001762                SLPCTRL_Initialize
 
 .text.WDT_Initialize
-                0x000016e2       0x1a
+                0x0000177c       0x1a
  .text.WDT_Initialize
-                0x000016e2       0x1a build/default/production/mcc_generated_files/mcc.o
-                0x000016e2                WDT_Initialize
+                0x0000177c       0x1a build/default/production/mcc_generated_files/mcc.o
+                0x0000177c                WDT_Initialize
 
 .text.PORTC_SW_POWER_DefaultInterruptHandler
-                0x000016fc       0x10
+                0x00001796       0x10
  .text.PORTC_SW_POWER_DefaultInterruptHandler
-                0x000016fc       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x000016fc                PORTC_SW_POWER_DefaultInterruptHandler
+                0x00001796       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001796                PORTC_SW_POWER_DefaultInterruptHandler
 
 .text.PORTB_PB2_DefaultInterruptHandler
-                0x0000170c       0x10
+                0x000017a6       0x10
  .text.PORTB_PB2_DefaultInterruptHandler
-                0x0000170c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000170c                PORTB_PB2_DefaultInterruptHandler
+                0x000017a6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017a6                PORTB_PB2_DefaultInterruptHandler
 
 .text.PORTA_PA5_DefaultInterruptHandler
-                0x0000171c       0x10
+                0x000017b6       0x10
  .text.PORTA_PA5_DefaultInterruptHandler
-                0x0000171c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000171c                PORTA_PA5_DefaultInterruptHandler
+                0x000017b6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017b6                PORTA_PA5_DefaultInterruptHandler
 
 .text.PORTC_IO_PC0_DefaultInterruptHandler
-                0x0000172c       0x10
+                0x000017c6       0x10
  .text.PORTC_IO_PC0_DefaultInterruptHandler
-                0x0000172c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000172c                PORTC_IO_PC0_DefaultInterruptHandler
+                0x000017c6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017c6                PORTC_IO_PC0_DefaultInterruptHandler
 
 .text.PORTC_SW_MODE_DefaultInterruptHandler
-                0x0000173c       0x10
+                0x000017d6       0x10
  .text.PORTC_SW_MODE_DefaultInterruptHandler
-                0x0000173c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000173c                PORTC_SW_MODE_DefaultInterruptHandler
+                0x000017d6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017d6                PORTC_SW_MODE_DefaultInterruptHandler
 
 .text.PORTB_PB1_DefaultInterruptHandler
-                0x0000174c       0x10
+                0x000017e6       0x10
  .text.PORTB_PB1_DefaultInterruptHandler
-                0x0000174c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000174c                PORTB_PB1_DefaultInterruptHandler
+                0x000017e6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017e6                PORTB_PB1_DefaultInterruptHandler
 
 .text.PORTC_IO_PC1_DefaultInterruptHandler
-                0x0000175c       0x10
+                0x000017f6       0x10
  .text.PORTC_IO_PC1_DefaultInterruptHandler
-                0x0000175c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000175c                PORTC_IO_PC1_DefaultInterruptHandler
+                0x000017f6       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x000017f6                PORTC_IO_PC1_DefaultInterruptHandler
 
 .text.PORTB_PB0_DefaultInterruptHandler
-                0x0000176c       0x10
+                0x00001806       0x10
  .text.PORTB_PB0_DefaultInterruptHandler
-                0x0000176c       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
-                0x0000176c                PORTB_PB0_DefaultInterruptHandler
+                0x00001806       0x10 build/default/production/mcc_generated_files/src/pin_manager.o
+                0x00001806                PORTB_PB0_DefaultInterruptHandler
 
 .text.TCA0_DefaultCMP0IsrCallback
-                0x0000177c       0x10
+                0x00001816       0x10
  .text.TCA0_DefaultCMP0IsrCallback
-                0x0000177c       0x10 build/default/production/mcc_generated_files/src/tca0.o
-                0x0000177c                TCA0_DefaultCMP0IsrCallback
+                0x00001816       0x10 build/default/production/mcc_generated_files/src/tca0.o
+                0x00001816                TCA0_DefaultCMP0IsrCallback
 
 .text.TCA0_DefaultCMP1IsrCallback
-                0x0000178c       0x10
+                0x00001826       0x10
  .text.TCA0_DefaultCMP1IsrCallback
-                0x0000178c       0x10 build/default/production/mcc_generated_files/src/tca0.o
-                0x0000178c                TCA0_DefaultCMP1IsrCallback
+                0x00001826       0x10 build/default/production/mcc_generated_files/src/tca0.o
+                0x00001826                TCA0_DefaultCMP1IsrCallback
 
 .text.TCA0_DefaultCMP2IsrCallback
-                0x0000179c       0x10
+                0x00001836       0x10
  .text.TCA0_DefaultCMP2IsrCallback
-                0x0000179c       0x10 build/default/production/mcc_generated_files/src/tca0.o
-                0x0000179c                TCA0_DefaultCMP2IsrCallback
+                0x00001836       0x10 build/default/production/mcc_generated_files/src/tca0.o
+                0x00001836                TCA0_DefaultCMP2IsrCallback
 
 .text.TCA0_DefaultOVFIsrCallback
-                0x000017ac       0x10
+                0x00001846       0x10
  .text.TCA0_DefaultOVFIsrCallback
-                0x000017ac       0x10 build/default/production/mcc_generated_files/src/tca0.o
-                0x000017ac                TCA0_DefaultOVFIsrCallback
+                0x00001846       0x10 build/default/production/mcc_generated_files/src/tca0.o
+                0x00001846                TCA0_DefaultOVFIsrCallback
 
-.text.libgcc    0x000017bc        0xc
- .text.libgcc   0x000017bc        0xc c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
-                0x000017bc                __tablejump2__
+.text.libgcc    0x00001856        0xc
+ .text.libgcc   0x00001856        0xc c:/program files (x86)/microchip/xc8/v2.10/avr/bin/../lib/gcc/avr/5.4.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x00001856                __tablejump2__
 
 .text.protected_write_io
-                0x000017c8        0x8
+                0x00001862        0x8
  .text.protected_write_io
-                0x000017c8        0x8 build/default/production/mcc_generated_files/src/protected_io.o
-                0x000017c8                protected_write_io
+                0x00001862        0x8 build/default/production/mcc_generated_files/src/protected_io.o
+                0x00001862                protected_write_io
 
-.text           0x000017d0        0x4
- .text          0x000017d0        0x4 C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/gcc/dev/attiny1616/avrxmega3/crtattiny1616.o
-                0x000017d0                __vector_22
-                0x000017d0                __vector_28
-                0x000017d0                __vector_1
-                0x000017d0                __vector_24
-                0x000017d0                __bad_interrupt
-                0x000017d0                __vector_6
-                0x000017d0                __vector_3
-                0x000017d0                __vector_23
-                0x000017d0                __vector_30
-                0x000017d0                __vector_25
-                0x000017d0                __vector_17
-                0x000017d0                __vector_19
-                0x000017d0                __vector_7
-                0x000017d0                __vector_27
-                0x000017d0                __vector_5
-                0x000017d0                __vector_4
-                0x000017d0                __vector_9
-                0x000017d0                __vector_15
-                0x000017d0                __vector_29
-                0x000017d0                __vector_26
-                0x000017d0                __vector_14
-                0x000017d0                __vector_16
-                0x000017d0                __vector_18
+.text           0x0000186a        0x4
+ .text          0x0000186a        0x4 C:/Program Files (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/gcc/dev/attiny1616/avrxmega3/crtattiny1616.o
+                0x0000186a                __vector_22
+                0x0000186a                __vector_28
+                0x0000186a                __vector_1
+                0x0000186a                __vector_24
+                0x0000186a                __bad_interrupt
+                0x0000186a                __vector_6
+                0x0000186a                __vector_3
+                0x0000186a                __vector_23
+                0x0000186a                __vector_30
+                0x0000186a                __vector_25
+                0x0000186a                __vector_17
+                0x0000186a                __vector_19
+                0x0000186a                __vector_7
+                0x0000186a                __vector_27
+                0x0000186a                __vector_5
+                0x0000186a                __vector_4
+                0x0000186a                __vector_9
+                0x0000186a                __vector_15
+                0x0000186a                __vector_29
+                0x0000186a                __vector_26
+                0x0000186a                __vector_14
+                0x0000186a                __vector_16
+                0x0000186a                __vector_18
 
 .data.TCA0_CMP0_isr_cb
-                0x00803834        0x2 load address 0x000017d4
+                0x00803839        0x2 load address 0x0000186e
  .data.TCA0_CMP0_isr_cb
-                0x00803834        0x2 build/default/production/mcc_generated_files/src/tca0.o
-                0x00803834                TCA0_CMP0_isr_cb
+                0x00803839        0x2 build/default/production/mcc_generated_files/src/tca0.o
+                0x00803839                TCA0_CMP0_isr_cb
 
 .data.TCA0_CMP1_isr_cb
-                0x00803836        0x2 load address 0x000017d6
+                0x0080383b        0x2 load address 0x00001870
  .data.TCA0_CMP1_isr_cb
-                0x00803836        0x2 build/default/production/mcc_generated_files/src/tca0.o
-                0x00803836                TCA0_CMP1_isr_cb
+                0x0080383b        0x2 build/default/production/mcc_generated_files/src/tca0.o
+                0x0080383b                TCA0_CMP1_isr_cb
 
 .data.TCA0_CMP2_isr_cb
-                0x00803838        0x2 load address 0x000017d8
+                0x0080383d        0x2 load address 0x00001872
  .data.TCA0_CMP2_isr_cb
-                0x00803838        0x2 build/default/production/mcc_generated_files/src/tca0.o
-                0x00803838                TCA0_CMP2_isr_cb
+                0x0080383d        0x2 build/default/production/mcc_generated_files/src/tca0.o
+                0x0080383d                TCA0_CMP2_isr_cb
 
 .data.TCA0_OVF_isr_cb
-                0x0080383a        0x2 load address 0x000017da
+                0x0080383f        0x2 load address 0x00001874
  .data.TCA0_OVF_isr_cb
-                0x0080383a        0x2 build/default/production/mcc_generated_files/src/tca0.o
-                0x0080383a                TCA0_OVF_isr_cb
+                0x0080383f        0x2 build/default/production/mcc_generated_files/src/tca0.o
+                0x0080383f                TCA0_OVF_isr_cb
 
 .data.u16PwmDutyTarget
-                0x00803842        0x2 load address 0x000017dc
+                0x00803847        0x2 load address 0x00001876
  .data.u16PwmDutyTarget
-                0x00803842        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x00803842                u16PwmDutyTarget
+                0x00803847        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00803847                u16PwmDutyTarget
 
 .data.u16PwmState
-                0x00803844        0x2 load address 0x000017de
+                0x00803849        0x2 load address 0x00001878
  .data.u16PwmState
-                0x00803844        0x2 build/default/production/mcc_generated_files/src/tcb0.o
-                0x00803844                u16PwmState
+                0x00803849        0x2 build/default/production/mcc_generated_files/src/tcb0.o
+                0x00803849                u16PwmState

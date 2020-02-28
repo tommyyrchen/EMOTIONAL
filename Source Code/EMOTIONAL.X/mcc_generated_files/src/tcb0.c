@@ -403,6 +403,23 @@ ISR(TCB0_INT_vect)
         SW_Struct_t.u16SwMSResetDelay = 0;
         SW_Struct_t.bSwMSReset = false;
     }
+    
+    if(System_State_Struc_t.u8MainState == SYSTEM_POWER_ON)
+    {
+        if(System_State_Struc_t.u32PowerOnTimeOutDelay < POWER_OFF_DELAY)
+        {
+            System_State_Struc_t.u32PowerOnTimeOutDelay++;
+        }
+        else
+        {
+            System_State_Struc_t.bPowerOnTimeOut = true;
+        }
+    }
+    else
+    {
+        System_State_Struc_t.u32PowerOnTimeOutDelay = 0;
+        System_State_Struc_t.bPowerOnTimeOut = false;
+    }
 #endif
     
 #if 1

@@ -30,8 +30,8 @@
 extern "C" {
 #endif
 
-#define T_HOLD_BRIGHT   197
-#define T_HOLD_DULL     108
+#define T_HOLD_BRIGHT   108 //1728ms/16ms
+#define T_HOLD_DULL     197 //3152ms/16ms
     
 #define LED_BLINK_2HZ_DELAY 31  // 500ms/16ms
 #define LED_BLINK_2HZ_1_TIMES   2   // 2n
@@ -40,12 +40,13 @@ extern "C" {
 #define LED_BLINK_2HZ_4_TIMES   8   // 2n
 #define LED_BLINK_2HZ_5_TIMES   10  // 2n
     
-#define SW_POWER_DELAY 19   // 300ms/16ms
-#define SW_MODE_DELAY 19    // 300ms/16ms
+#define SW_POWER_DELAY  9       // 150ms/16ms
+#define SW_MODE_DELAY   9       // 150ms/16ms
 #define SW_MODE_RESET_DELAY 312     // 5000ms/16ms
 #define SW_MS_DELAY         312     // 5000ms/16ms
 #define SW_MS_RESET_DELAY   1875    // 30000ms/16ms
 #define BATTERY_LOW_DELAY   13      // 200ms/16ms
+#define POWER_OFF_DELAY     112500  // 30 minutes = (30 x 60 x 1000)ms/16ms
 
 #define PWM_DUTY_DEFAULT 160    // 50% ==> 160/320    
 #define PWM_MODE_DEFAULT 0
