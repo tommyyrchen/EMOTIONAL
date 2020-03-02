@@ -24,6 +24,7 @@
 #include "mcc_generated_files/mcc.h"
 
 int16_t i16Temp = 0;
+uint8_t u8Temp = 0;
 
 /*
     Main application
@@ -41,6 +42,16 @@ int main(void)
     System_State_Struc_t.bBatteryLow = false;
     System_State_Struc_t.bBatteryUltraLow = false;
     System_State_Struc_t.bPWM_ON = false;
+    
+    u8Temp = FLASH_ReadEepromByte(0x00);
+    if(u8Temp == 0xFF)
+    {
+        u16PwmMode = 20;
+    }
+    else
+    {
+        u16PwmMode = u8Temp;
+    }
     
     /* Replace with your application code */
     while (1){
@@ -199,7 +210,14 @@ int main(void)
                 break;
             case SYSTEM_MODE_SETTING:
                 System_State_Struc_t.bPWM_ON = true;
-                LED_Struct_t.u8LedState = LED_ORANGE_SOLID;
+                if(System_State_Struc_t.bBatteryLow == true)
+                {
+                    LED_Struct_t.u8LedState = LED_RED_BLINK_2HZ;
+                }
+                else
+                {
+                    LED_Struct_t.u8LedState = LED_ORANGE_SOLID;
+                }
                 
                 if(SW_Struct_t.bSWPower == true)
                 {
@@ -207,6 +225,10 @@ int main(void)
                     if(u16PwmMode < 20)
                     {
                         u16PwmMode++;
+                    }
+                    else
+                    {
+                        u16PwmMode = 20;
                     }
                 }
                 else if(SW_Struct_t.bSWMode == true)
@@ -216,16 +238,30 @@ int main(void)
                     {
                         u16PwmMode--;
                     }
+                    else
+                    {
+                        u16PwmMode = 0;
+                    }
                 }
                 else if(SW_Struct_t.bSwMS == true)
                 {
                     SW_Struct_t.bSwMS = false;
                     System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                    
+                    FLASH_WriteEepromByte(0x00, (uint8_t)u16PwmMode);                  
                 }
                 else if(SW_Struct_t.bSwMSReset == true)
                 {
                     SW_Struct_t.bSwMSReset = false;
                     System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                    
+                    FLASH_WriteEepromByte(0x00, (uint8_t)u16PwmMode);
+                }
+                else if(System_State_Struc_t.bBatteryUltraLow == true)
+                {
+                    System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                    
+                    FLASH_WriteEepromByte(0x00, (uint8_t)u16PwmMode);
                 }
                 
                 u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);

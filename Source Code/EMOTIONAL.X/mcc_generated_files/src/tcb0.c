@@ -425,14 +425,13 @@ ISR(TCB0_INT_vect)
 #if 1
     /* Motor Control Function */
     
-    //if(SW_Struct_t.bSWPower == true)
     if(System_State_Struc_t.bPWM_ON == true)
     {
         switch (u16PwmState)
         {
             case PWM_RAMP_ON:
                 u16PwmDutyTemp = 0;
-                u16PwmDutyStep = u16PwmDutyTarget >> 3;
+                u16PwmDutyStep = u16PwmDutyTarget >> 2;
                 u16PwmState = PWM_RAMP_ON_DELAY;
                 break;
             case PWM_RAMP_ON_DELAY:
@@ -444,7 +443,6 @@ ISR(TCB0_INT_vect)
                 else
                 {
                     u16PwmDutyTemp = u16PwmDutyTemp + u16PwmDutyStep;
-                    //TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 }
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 break;
@@ -466,14 +464,13 @@ ISR(TCB0_INT_vect)
                 break;
             case PWM_RAMP_OFF:
                 u16PwmDutyTemp = u16PwmDutyTarget;
-                u16PwmDutyStep = u16PwmDutyTarget >> 3;
+                u16PwmDutyStep = u16PwmDutyTarget >> 2;
                 u16PwmState = PWM_RAMP_OFF_DELAY;           
                 break;
             case PWM_RAMP_OFF_DELAY:
                 if(u16PwmDutyTemp > u16PwmDutyStep)
                 {
                     u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
-                    //TCA0.SINGLE.CMP1 = u16PwmDutyTemp;             
                 }
                 else
                 {

@@ -35,6 +35,7 @@ extern "C" {
 #include "include/tcb0.h"
 #include "include/tca0.h"
 #include "config/clock_config.h"
+#include "include/nvmctrl.h"
 
 enum SYSTEM_STATE_ENUM
 {

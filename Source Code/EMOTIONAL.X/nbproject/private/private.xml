@@ -15,6 +15,13 @@
             <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/utils/compiler.h</file>
             <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/pin_manager.c</file>
             <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/port.h</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/nvmctrl.c</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/nvmctrl.h</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/device_config.c</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/config/clock_config.h</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/cpuint.h</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/ccp.h</file>
+            <file>file:/C:/Work/Side%20Project/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/protected_io.h</file>
         </group>
     </open-files>
 </project-private>

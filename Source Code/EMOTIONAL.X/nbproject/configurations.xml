@@ -20,6 +20,7 @@
           <itemPath>mcc_generated_files/include/pin_manager.h</itemPath>
           <itemPath>mcc_generated_files/include/tcb0.h</itemPath>
           <itemPath>mcc_generated_files/include/adc0.h</itemPath>
+          <itemPath>mcc_generated_files/include/nvmctrl.h</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <logicalFolder name="assembler" displayName="assembler" projectFiles="true">
@@ -53,6 +54,7 @@
           <itemPath>mcc_generated_files/src/protected_io.S</itemPath>
           <itemPath>mcc_generated_files/src/tcb0.c</itemPath>
           <itemPath>mcc_generated_files/src/adc0.c</itemPath>
+          <itemPath>mcc_generated_files/src/nvmctrl.c</itemPath>
         </logicalFolder>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
@@ -74,7 +76,7 @@
         <targetDevice>ATtiny1616</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>snap</platformTool>
+        <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC8</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
         <platform>3</platform>
@@ -227,6 +229,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-1fff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Work/Side Project/EMOTIONAL/Source Code/EMOTIONAL.X/debug/default/EMOTIONAL_ptg"/>
         <property key="programmerToGoImageName" value="EMOTIONAL_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
