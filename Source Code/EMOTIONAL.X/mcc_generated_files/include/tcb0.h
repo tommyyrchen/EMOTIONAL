@@ -32,6 +32,7 @@ extern "C" {
 
 #define T_HOLD_BRIGHT   108 //1728ms/16ms
 #define T_HOLD_DULL     197 //3152ms/16ms
+#define SS_CNT          4    
     
 #define LED_BLINK_2HZ_DELAY 31  // 500ms/16ms
 #define LED_BLINK_2HZ_1_TIMES   2   // 2n
@@ -47,6 +48,10 @@ extern "C" {
 #define SW_MS_RESET_DELAY   1875    // 30000ms/16ms
 #define BATTERY_LOW_DELAY   13      // 200ms/16ms
 #define POWER_OFF_DELAY     112500  // 30 minutes = (30 x 60 x 1000)ms/16ms
+
+#define SW_MS_COUNT		7
+#define SW_MS_TIMEIOUT_COUNT	125	// 2000ms/16ms
+#define SW_MS_OUT_COUNT			188 // 3000ms/16ms
 
 #define PWM_DUTY_DEFAULT 160    // 50% ==> 160/320    
 #define PWM_MODE_DEFAULT 0
@@ -105,6 +110,12 @@ struct SW_Struct
     volatile bool bSwMS;
     volatile uint16_t u16SwMSResetDelay;
     volatile bool bSwMSReset;
+	
+	volatile uint8_t u8SwMSCount;
+	volatile uint8_t u8SwMSCntTimeOut;
+	volatile uint8_t u8SwMSOutCnt;
+	volatile bool bSwMSOutCnt;
+	volatile bool bSwMSOut;
 }SW_Struct_t;
 
 struct LED_Struct

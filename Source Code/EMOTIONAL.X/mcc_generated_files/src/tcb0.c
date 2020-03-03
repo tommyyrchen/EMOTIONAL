@@ -32,6 +32,7 @@ volatile uint16_t u16PwmDutyStep = 0;
 volatile uint16_t u16PwmDutyTarget = PWM_DUTY_DEFAULT;
 volatile uint16_t u16PwmState = PWM_OFF;
 volatile uint16_t u16PwmMode = PWM_MODE_DEFAULT;
+volatile uint8_t u8Cnt = 0;
 
 /**
  * \brief Initialize tcb interface
@@ -293,6 +294,7 @@ ISR(TCB0_INT_vect)
     
 #if 1
     /* PB Switch Detection */
+	#if 0
     if(SW_POWER_GetValue() != 0 && SW_MODE_GetValue() != 0)
     {
         if(SW_Struct_t.u16SwMSDelay < SW_MS_DELAY)
@@ -313,7 +315,8 @@ ISR(TCB0_INT_vect)
         }
         SW_Struct_t.bSwMSDelay = false;
     }
-    
+    #endif
+	
     // Power Switch
     if(SW_POWER_GetValue() != 0)
     {
@@ -327,6 +330,22 @@ ISR(TCB0_INT_vect)
         }
         
         SW_Struct_t.u16SwMSResetDelay = 0;
+		SW_Struct_t.u8SwMSCntTimeOut = 0;
+
+		if(System_State_Struc_t.u8MainState == SYSTEM_MODE_SETTING)
+		{
+			if(SW_Struct_t.u8SwMSOutCnt < SW_MS_OUT_COUNT)
+			{
+				SW_Struct_t.u8SwMSOutCnt++;
+			}
+			else
+			{
+				//SW_Struct_t.bSwMSOutCnt = true;
+                //SW_Struct_t.bSwMSOutCnt = false;
+                SW_Struct_t.u8SwMSOutCnt = 0;
+                SW_Struct_t.bSwMSOut = true;
+			}
+		}
     }
     else
     {
@@ -335,10 +354,38 @@ ISR(TCB0_INT_vect)
         {
             //SW_Struct_t.bSWPower ^= 1;
             SW_Struct_t.bSWPower = true;
+						
+			// check for going to the SYSTEM_MODE_SETTING
+			if (SW_Struct_t.u8SwMSCount <= SW_MS_COUNT)
+			{
+				SW_Struct_t.u8SwMSCount++;
+			}
+			else
+			{
+				SW_Struct_t.bSwMS = true;
+			}			
         }
         SW_Struct_t.bSWPowerDelay = false;
-        
+
+//		if(SW_Struct_t.bSwMSOutCnt == true)
+//		{
+//			SW_Struct_t.bSwMSOutCnt = false;
+//			SW_Struct_t.u8SwMSOutCnt = 0;
+//			SW_Struct_t.bSwMSOut = true;
+//		}
         //SW_Struct_t.u16SwModeResetDelay = 0;
+        
+        SW_Struct_t.u8SwMSOutCnt = 0;
+
+        if (SW_Struct_t.u8SwMSCntTimeOut < SW_MS_TIMEIOUT_COUNT)
+        {
+            SW_Struct_t.u8SwMSCntTimeOut++;
+        }
+        else
+        {
+            SW_Struct_t.u8SwMSCount = 0;
+            SW_Struct_t.u8SwMSCntTimeOut = 0;
+        }        
     }
     
     // Mode Switch
@@ -433,8 +480,11 @@ ISR(TCB0_INT_vect)
                 u16PwmDutyTemp = 0;
                 u16PwmDutyStep = u16PwmDutyTarget >> 2;
                 u16PwmState = PWM_RAMP_ON_DELAY;
+                
+                u8Cnt = 0;
                 break;
             case PWM_RAMP_ON_DELAY:
+#if 0
                 if(u16PwmDutyTemp > u16PwmDutyTarget)
                 {
                     u16PwmDutyTemp = u16PwmDutyTarget;
@@ -444,6 +494,25 @@ ISR(TCB0_INT_vect)
                 {
                     u16PwmDutyTemp = u16PwmDutyTemp + u16PwmDutyStep;
                 }
+#else
+                if(u8Cnt < SS_CNT)
+                {
+                    u8Cnt++;
+                    if(u16PwmDutyTemp < u16PwmDutyTarget)
+                    {
+                        u16PwmDutyTemp = u16PwmDutyTemp + u16PwmDutyStep;
+                    }
+                    else
+                    {
+                        u16PwmDutyTemp = u16PwmDutyTarget;
+                    }
+                }
+                else
+                {
+                    u16PwmDutyTemp = u16PwmDutyTarget;
+                    u16PwmState = PWM_ON;
+                }
+#endif                
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 break;
             case PWM_ON:
@@ -465,9 +534,12 @@ ISR(TCB0_INT_vect)
             case PWM_RAMP_OFF:
                 u16PwmDutyTemp = u16PwmDutyTarget;
                 u16PwmDutyStep = u16PwmDutyTarget >> 2;
-                u16PwmState = PWM_RAMP_OFF_DELAY;           
+                u16PwmState = PWM_RAMP_OFF_DELAY;
+                
+                u8Cnt = 0;
                 break;
             case PWM_RAMP_OFF_DELAY:
+#if 0                
                 if(u16PwmDutyTemp > u16PwmDutyStep)
                 {
                     u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
@@ -477,6 +549,25 @@ ISR(TCB0_INT_vect)
                     u16PwmDutyTemp = 0;
                     u16PwmState = PWM_OFF;
                 }
+#else
+                if(u8Cnt < SS_CNT)
+                {
+                    u8Cnt++;
+                    if(u16PwmDutyTemp > u16PwmDutyStep)
+                    {
+                        u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
+                    }
+                    else
+                    {
+                        u16PwmDutyTemp = 0;
+                    }
+                }
+                else
+                {
+                    u16PwmDutyTemp = 0;
+                    u16PwmState = PWM_OFF;                   
+                }
+#endif                
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 break;
             case PWM_OFF:

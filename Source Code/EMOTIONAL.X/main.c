@@ -206,6 +206,11 @@ int main(void)
                     System_State_Struc_t.bPowerOnTimeOut = false;
                     System_State_Struc_t.u32PowerOnTimeOutDelay = 0;
                 }
+				else if(SW_Struct_t.bSwMS == true)
+                {
+                    SW_Struct_t.bSwMS = false;
+                    System_State_Struc_t.u8MainState = SYSTEM_MODE_SETTING;
+				}
                 
                 break;
             case SYSTEM_MODE_SETTING:
@@ -243,9 +248,11 @@ int main(void)
                         u16PwmMode = 0;
                     }
                 }
-                else if(SW_Struct_t.bSwMS == true)
+                //else if(SW_Struct_t.bSwMS == true)
+                else if(SW_Struct_t.bSwMSOut == true)
                 {
-                    SW_Struct_t.bSwMS = false;
+                    //SW_Struct_t.bSwMS = false;
+                    SW_Struct_t.bSwMSOut = false;
                     System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
                     
                     FLASH_WriteEepromByte(0x00, (uint8_t)u16PwmMode);                  
@@ -263,7 +270,9 @@ int main(void)
                     
                     FLASH_WriteEepromByte(0x00, (uint8_t)u16PwmMode);
                 }
-                
+
+				//SW_Struct_t.u8SwMSCount = 0;
+				
                 u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);
                 
                 break;
