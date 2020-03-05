@@ -123,7 +123,8 @@ int8_t TCA0_Initialize()
     TCA0.SINGLE.CNT = 0x00;
 
     //CMP2EN disabled; CMP1EN enabled; CMP0EN disabled; ALUPD disabled; WGMODE SINGLESLOPE; 
-    TCA0.SINGLE.CTRLB = 0x23;
+    //TCA0.SINGLE.CTRLB = 0x23;
+    TCA0.SINGLE.CTRLB = 0x2B;
 
     //CMP2OV enabled; CMP1OV enabled; CMP0OV enabled; 
     TCA0.SINGLE.CTRLC = 0x07;

@@ -67,7 +67,14 @@ int main(void)
                 }
                 break;
             case SYSTEM_POWER_OFF:
-                LED_Struct_t.u8LedState = LED_OFF;
+                if(System_State_Struc_t.bBatteryLow == true)
+                {
+                    LED_Struct_t.u8LedState = LED_RED_BLINK_2HZ;
+                }
+                else
+                {
+                    LED_Struct_t.u8LedState = LED_OFF;
+                }
                 System_State_Struc_t.bPWM_ON = false;
                 ADC0.CTRLA = 0x00;  // ADC disabled
                 
@@ -286,7 +293,8 @@ int main(void)
 
 				//SW_Struct_t.u8SwMSCount = 0;
 				
-                u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);
+                //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);
+                u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 62);
                 
                 ccp_write_io((void*)&(SLPCTRL.CTRLA),0x00);                
                 break;

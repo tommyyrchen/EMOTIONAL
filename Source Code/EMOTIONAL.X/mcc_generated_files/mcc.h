@@ -73,10 +73,10 @@ struct System_State_StrucT
     volatile bool bSleep;
 }System_State_Struc_t;
 
-#define BATTERY_LOW_VOLTAGE         2635    // (1.1/3.42) x 1024 x 8
-#define BATTERY_ULTRA_LOW_VOLTAGE   2515    // (1.05/3.42) x 1024 x 8
+#define BATTERY_LOW_VOLTAGE         2341    // (0.98/3.43) x 1024 x 8
+#define BATTERY_ULTRA_LOW_VOLTAGE   2233    // (0.935/3.43) x 1024 x 8
 
-#define SYSTEM_SLEEP_CNT            63      // 1000ms/16ms
+#define SYSTEM_SLEEP_CNT            100      // 1000ms/10ms
 /**
  * Initializes MCU, drivers and middleware in the project
 **/

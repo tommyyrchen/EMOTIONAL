@@ -30,33 +30,33 @@
 extern "C" {
 #endif
 
-#define T_HOLD_BRIGHT   108 //1728ms/16ms
-#define T_HOLD_DULL     197 //3152ms/16ms
+#define T_HOLD_BRIGHT   173     //1728ms/10ms
+#define T_HOLD_DULL     315     //3152ms/10ms
 #define SS_CNT          4    
     
-#define LED_BLINK_2HZ_DELAY 31  // 500ms/16ms
+#define LED_BLINK_2HZ_DELAY 50  // 500ms/10ms
 #define LED_BLINK_2HZ_1_TIMES   2   // 2n
 #define LED_BLINK_2HZ_2_TIMES   4   // 2n
 #define LED_BLINK_2HZ_3_TIMES   6   // 2n
 #define LED_BLINK_2HZ_4_TIMES   8   // 2n
 #define LED_BLINK_2HZ_5_TIMES   10  // 2n
     
-#define SW_POWER_DELAY  9       // 150ms/16ms
-#define SW_MODE_DELAY   9       // 150ms/16ms
-#define SW_MODE_RESET_DELAY 312     // 5000ms/16ms
-#define SW_MS_DELAY         312     // 5000ms/16ms
-#define SW_MS_RESET_DELAY   1875    // 30000ms/16ms
-#define BATTERY_LOW_DELAY   13      // 200ms/16ms
-#define POWER_OFF_DELAY     112500  // 30 minutes = (30 x 60 x 1000)ms/16ms
+#define SW_POWER_DELAY  15       // 150ms/10ms
+#define SW_MODE_DELAY   15       // 150ms/10ms
+#define SW_MODE_RESET_DELAY 500     // 5000ms/10ms
+#define SW_MS_DELAY         500     // 5000ms/10ms
+#define SW_MS_RESET_DELAY   3000    // 30000ms/10ms
+#define BATTERY_LOW_DELAY   20      // 200ms/10ms
+#define POWER_OFF_DELAY     180000  // 30 minutes = (30 x 60 x 1000)ms/10ms
 
 #define SW_MS_COUNT		7
-#define SW_MS_TIMEIOUT_COUNT	125	// 2000ms/16ms
-#define SW_MS_OUT_COUNT			188 // 3000ms/16ms
+#define SW_MS_TIMEIOUT_COUNT	200	// 2000ms/10ms
+#define SW_MS_OUT_COUNT			300 // 3000ms/10ms
 
 #define PWM_DUTY_DEFAULT (1249)    // 50% ==> 1250/2500    
 #define PWM_MODE_DEFAULT 0
-#define PWM_DUTY_MIN        160
-#define PWM_DUTY_MAX        320
+#define PWM_DUTY_MIN        375     // 1.5ms ==> 0.0015 x 250,000
+#define PWM_DUTY_MAX        2475    // 9.9ms ==> 0.0099 x 250,000
     
 volatile extern int16_t i16Cnt;
 volatile extern uint16_t u16PwmDutyTemp;
@@ -96,8 +96,8 @@ enum LED_STATE_ENUM
 
 struct SW_Struct
 {
-    volatile uint8_t u8SwPowerDelay;
-    volatile uint8_t u8SwModeDelay;
+    volatile uint16_t u16SwPowerDelay;
+    volatile uint16_t u16SwModeDelay;
     volatile bool bSWPower;
     volatile bool bSWPowerDelay;
     volatile bool bSWMode;
@@ -112,8 +112,8 @@ struct SW_Struct
     volatile bool bSwMSReset;
 	
 	volatile uint8_t u8SwMSCount;
-	volatile uint8_t u8SwMSCntTimeOut;
-	volatile uint8_t u8SwMSOutCnt;
+	volatile uint16_t u16SwMSCntTimeOut;
+	volatile uint16_t u16SwMSOutCnt;
 	volatile bool bSwMSOutCnt;
 	volatile bool bSwMSOut;
 }SW_Struct_t;
