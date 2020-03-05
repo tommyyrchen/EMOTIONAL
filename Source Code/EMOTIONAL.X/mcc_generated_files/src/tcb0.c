@@ -50,7 +50,7 @@ void TCB0_SetCaptIsrCallback(TCB0_cb_t cb)
 ISR(TCB0_INT_vect)
 {
 	/* Insert your TCB interrupt handling code */
-    
+    //PORTB_OUTSET = 0x20;
 #if 1
     /* LED Indicator */
     if(LED_Struct_t.u8PreLedState != LED_Struct_t.u8LedState)
@@ -478,13 +478,14 @@ ISR(TCB0_INT_vect)
         {
             case PWM_RAMP_ON:
                 u16PwmDutyTemp = 0;
-                u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                //u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                u16PwmDutyStep = u16PwmDutyTarget / 3;
                 u16PwmState = PWM_RAMP_ON_DELAY;
                 
                 u8Cnt = 0;
                 break;
             case PWM_RAMP_ON_DELAY:
-#if 0
+#if 1
                 if(u16PwmDutyTemp > u16PwmDutyTarget)
                 {
                     u16PwmDutyTemp = u16PwmDutyTarget;
@@ -533,13 +534,14 @@ ISR(TCB0_INT_vect)
                 break;
             case PWM_RAMP_OFF:
                 u16PwmDutyTemp = u16PwmDutyTarget;
-                u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                //u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                u16PwmDutyStep = u16PwmDutyTarget / 3;
                 u16PwmState = PWM_RAMP_OFF_DELAY;
                 
                 u8Cnt = 0;
                 break;
             case PWM_RAMP_OFF_DELAY:
-#if 0                
+#if 1                
                 if(u16PwmDutyTemp > u16PwmDutyStep)
                 {
                     u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
@@ -628,6 +630,24 @@ ISR(TCB0_INT_vect)
     }
 #endif
     
+#if 1
+    if(System_State_Struc_t.u8MainState == SYSTEM_POWER_OFF)
+    {
+        if(System_State_Struc_t.u8SleepCnt < SYSTEM_SLEEP_CNT)
+        {
+            System_State_Struc_t.u8SleepCnt++;
+        }
+        else
+        {
+            System_State_Struc_t.bSleep = true;
+        }
+    }
+    else
+    {
+        System_State_Struc_t.u8SleepCnt = 0;
+    }
+#endif
+    
 	/**
 	 * The interrupt flag is cleared by writing 1 to it, or when the Capture register
 	 * is read in Capture mode
@@ -639,6 +659,7 @@ ISR(TCB0_INT_vect)
         } 
     
 	TCB0.INTFLAGS = TCB_CAPT_bm;
+    //PORTB_OUTCLR = 0x20;
 }
 
 /**
@@ -647,7 +668,7 @@ ISR(TCB0_INT_vect)
 int8_t TCB0_Initialize()
 {
     //Compare or Capture
-    TCB0.CCMP = 0x1FF;
+    TCB0.CCMP = 0xF9F;
 
     //Count
     TCB0.CNT = 0x00;

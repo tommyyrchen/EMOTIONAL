@@ -22,6 +22,8 @@
 */
 
 #include "../include/pin_manager.h"
+#include "../mcc.h"
+
 static void (*PORTC_SW_POWER_InterruptHandler)(void);
 static void (*PORTB_PB2_InterruptHandler)(void);
 static void (*PORTA_PA5_InterruptHandler)(void);
@@ -72,7 +74,7 @@ void PIN_MANAGER_Initialize()
     PORTC.PIN0CTRL = 0x00;
     PORTC.PIN1CTRL = 0x00;
     PORTC.PIN2CTRL = 0x00;
-    PORTC.PIN3CTRL = 0x00;
+    PORTC.PIN3CTRL = 0x01;
     PORTC.PIN4CTRL = 0x00;
     PORTC.PIN5CTRL = 0x00;
     PORTC.PIN6CTRL = 0x00;
@@ -128,6 +130,9 @@ void PORTC_SW_POWER_DefaultInterruptHandler(void)
 {
     // add your PORTC_SW_POWER interrupt custom code
     // or set custom function using PORTC_SW_POWER_SetInterruptHandler()
+    
+    System_State_Struc_t.bSleep =false;
+    System_State_Struc_t.u8SleepCnt = 0;
 }
 /**
   Allows selecting an interrupt handler for PORTB_PB2 at application runtime
@@ -220,3 +225,27 @@ void PORTB_PB0_DefaultInterruptHandler(void)
     // add your PORTB_PB0 interrupt custom code
     // or set custom function using PORTB_PB0_SetInterruptHandler()
 }
+ISR(PORTC_PORT_vect)
+{  
+    // Call the interrupt handler for the callback registered at runtime
+    if(VPORTC.INTFLAGS & PORT_INT3_bm)
+    {
+       PORTC_SW_POWER_InterruptHandler();
+    }
+    if(VPORTC.INTFLAGS & PORT_INT0_bm)
+    {
+       PORTC_IO_PC0_InterruptHandler();
+    }
+    if(VPORTC.INTFLAGS & PORT_INT2_bm)
+    {
+       PORTC_SW_MODE_InterruptHandler();
+    }
+    if(VPORTC.INTFLAGS & PORT_INT1_bm)
+    {
+       PORTC_IO_PC1_InterruptHandler();
+    }
+
+    /* Clear interrupt flags */
+    VPORTC.INTFLAGS = 0xff;
+}
+

@@ -42,6 +42,8 @@ int main(void)
     System_State_Struc_t.bBatteryLow = false;
     System_State_Struc_t.bBatteryUltraLow = false;
     System_State_Struc_t.bPWM_ON = false;
+    System_State_Struc_t.bSleep = false;
+    System_State_Struc_t.u8SleepCnt = 0;
     
     u8Temp = FLASH_ReadEepromByte(0x00);
     if(u8Temp == 0xFF)
@@ -84,6 +86,11 @@ int main(void)
                     ADC0.CTRLA = 0x01;  // ADC enabled
                     ADC0_StartConversion(ADC_MUXPOS_AIN5_gc);
                 }
+                else if(System_State_Struc_t.bSleep == true)
+                {
+                    System_State_Struc_t.u8MainState = SYSTEM_POWER_LOW;
+                }
+                ccp_write_io((void*)&(SLPCTRL.CTRLA),0x03);
                 break;
             case SYSTEM_POWER_ON:                
                 System_State_Struc_t.bPWM_ON = true;
@@ -101,7 +108,8 @@ int main(void)
                         //u16PwmMode = PWM_MODE_DEFAULT + 4;
                         //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
                         i16Temp = u16PwmMode;
-                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
                         break;
                     case SYSTEM_SUB_MODE_1:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -115,7 +123,8 @@ int main(void)
                         //u16PwmMode = PWM_MODE_DEFAULT;
                         //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 3);
-                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
                         break;
                     case SYSTEM_SUB_MODE_2:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -129,7 +138,8 @@ int main(void)
 //                        u16PwmMode = PWM_MODE_DEFAULT + 1;
 //                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 2);
-                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
                         break;
                     case SYSTEM_SUB_MODE_3:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -143,7 +153,8 @@ int main(void)
 //                        u16PwmMode = PWM_MODE_DEFAULT + 2;
 //                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 1);
-                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
                         break;
                     case SYSTEM_SUB_MODE_4:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -157,7 +168,8 @@ int main(void)
 //                        u16PwmMode = PWM_MODE_DEFAULT + 3;
 //                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
                         i16Temp = u16PwmMode;
-                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
+                        u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
                         break;
                     default:
                         break;
@@ -211,7 +223,8 @@ int main(void)
                     SW_Struct_t.bSwMS = false;
                     System_State_Struc_t.u8MainState = SYSTEM_MODE_SETTING;
 				}
-                
+
+                ccp_write_io((void*)&(SLPCTRL.CTRLA),0x00);               
                 break;
             case SYSTEM_MODE_SETTING:
                 System_State_Struc_t.bPWM_ON = true;
@@ -275,8 +288,16 @@ int main(void)
 				
                 u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);
                 
+                ccp_write_io((void*)&(SLPCTRL.CTRLA),0x00);                
                 break;
             case SYSTEM_POWER_LOW:
+                
+                __builtin_avr_sleep ();
+                if(System_State_Struc_t.bSleep == false)
+                {
+                    System_State_Struc_t.u8MainState = SYSTEM_POWER_OFF;
+                }
+                
                 break;
             default:
                 break;

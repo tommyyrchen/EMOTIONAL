@@ -156,7 +156,7 @@ int8_t TCA0_Initialize()
     TCA0.SINGLE.INTFLAGS = 0x00;
 
     //Period
-    TCA0.SINGLE.PER = 0x13F;
+    TCA0.SINGLE.PER = 0x9C3;    // 2499
 
     //Temporary data for 16-bit Access
     TCA0.SINGLE.TEMP = 0x00;

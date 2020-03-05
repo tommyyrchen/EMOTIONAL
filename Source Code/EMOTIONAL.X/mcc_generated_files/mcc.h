@@ -69,10 +69,14 @@ struct System_State_StrucT
     volatile uint8_t u8BatteryLowDelay;
     volatile uint32_t u32PowerOnTimeOutDelay;
     volatile bool bPowerOnTimeOut;
+    volatile uint8_t u8SleepCnt;
+    volatile bool bSleep;
 }System_State_Struc_t;
 
 #define BATTERY_LOW_VOLTAGE         2635    // (1.1/3.42) x 1024 x 8
 #define BATTERY_ULTRA_LOW_VOLTAGE   2515    // (1.05/3.42) x 1024 x 8
+
+#define SYSTEM_SLEEP_CNT            63      // 1000ms/16ms
 /**
  * Initializes MCU, drivers and middleware in the project
 **/
