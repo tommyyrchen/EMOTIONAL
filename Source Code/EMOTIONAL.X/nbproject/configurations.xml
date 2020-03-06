@@ -21,6 +21,7 @@
           <itemPath>mcc_generated_files/include/tcb0.h</itemPath>
           <itemPath>mcc_generated_files/include/adc0.h</itemPath>
           <itemPath>mcc_generated_files/include/nvmctrl.h</itemPath>
+          <itemPath>mcc_generated_files/include/rtc.h</itemPath>
         </logicalFolder>
         <logicalFolder name="utils" displayName="utils" projectFiles="true">
           <logicalFolder name="assembler" displayName="assembler" projectFiles="true">
@@ -55,6 +56,7 @@
           <itemPath>mcc_generated_files/src/tcb0.c</itemPath>
           <itemPath>mcc_generated_files/src/adc0.c</itemPath>
           <itemPath>mcc_generated_files/src/nvmctrl.c</itemPath>
+          <itemPath>mcc_generated_files/src/rtc.c</itemPath>
         </logicalFolder>
         <itemPath>mcc_generated_files/device_config.c</itemPath>
         <itemPath>mcc_generated_files/mcc.c</itemPath>
@@ -82,7 +84,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="ATtiny_DFP" vendor="Microchip" version="2.0.10"/>
+        <pack name="ATtiny_DFP" vendor="Microchip" version="2.1.63"/>
       </packs>
       <compileType>
         <linkerTool>
@@ -111,6 +113,7 @@
       <HI-TECH-COMP>
         <property key="additional-warnings" value="true"/>
         <property key="asmlist" value="true"/>
+        <property key="call-prologues" value="false"/>
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
@@ -196,6 +199,7 @@
         <property key="gcc-opt-std" value="-std=c99"/>
         <property key="gcc-output-file-format" value="dwarf-3"/>
         <property key="omit-pack-options" value="false"/>
+        <property key="omit-pack-options-new" value="1"/>
         <property key="output-file-format" value="-mcof,+elf"/>
         <property key="stack-size-high" value="auto"/>
         <property key="stack-size-low" value="auto"/>
@@ -210,6 +214,8 @@
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UpdateOptions"
                   value="ToolFirmwareOption.UseLatest"/>
+        <property key="ToolFirmwareToolPack"
+                  value="Press to select which tool pack to use"/>
         <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="updi"/>
         <property key="communication.interface.jtag" value="2wire"/>
@@ -250,8 +256,13 @@
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="programoptionsedbg.eraseb4program" value="true"/>
         <property key="ptgProgramImage" value="true"/>
         <property key="ptgSendImage" value="true"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
         <property key="voltagevalue" value="5.0"/>
       </pk4hybrid>
       <snap>

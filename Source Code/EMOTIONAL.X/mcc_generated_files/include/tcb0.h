@@ -30,9 +30,9 @@
 extern "C" {
 #endif
 
-#define T_HOLD_BRIGHT   173     //1728ms/10ms
-#define T_HOLD_DULL     315     //3152ms/10ms
-#define SS_CNT          4    
+#define T_HOLD_BRIGHT   (28-6)  //173     //1728ms/10ms
+#define T_HOLD_DULL     50  //315     //3152ms/10ms
+#define SS_CNT          2    
     
 #define LED_BLINK_2HZ_DELAY 50  // 500ms/10ms
 #define LED_BLINK_2HZ_1_TIMES   2   // 2n
@@ -65,6 +65,7 @@ volatile extern uint16_t u16PwmDutyTarget;
 
 volatile extern uint16_t u16PwmState;
 volatile extern uint16_t u16PwmMode;
+volatile extern uint8_t u8Cnt;
 
 enum PWM_CONTROL_NNUM
 {

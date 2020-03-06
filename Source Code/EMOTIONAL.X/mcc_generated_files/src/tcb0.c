@@ -51,7 +51,7 @@ ISR(TCB0_INT_vect)
 {
 	/* Insert your TCB interrupt handling code */
     //PORTB_OUTSET = 0x20;
-#if 1
+#if 0
     /* Motor Control Function */
     
     if(System_State_Struc_t.bPWM_ON == true)
@@ -91,8 +91,11 @@ ISR(TCB0_INT_vect)
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
                 u16PwmState = PWM_ON_DELAY;
                 i16Cnt = 0;
+                System_State_Struc_t.bPwmOnDelay = false;
+                System_State_Struc_t.bPwmOnDelayTimeOut = false;
                 break;
             case PWM_ON_DELAY:
+#if 0
                 if(i16Cnt > T_HOLD_BRIGHT)
                 {
                     u16PwmState = PWM_RAMP_OFF;
@@ -102,6 +105,15 @@ ISR(TCB0_INT_vect)
                 {
                     i16Cnt++;
                 }
+#else
+                System_State_Struc_t.bPwmOnDelay = true;
+                if(System_State_Struc_t.bPwmOnDelayTimeOut == true)
+                {
+                    System_State_Struc_t.bPwmOnDelay = false;
+                    System_State_Struc_t.bPwmOnDelayTimeOut = false;
+                    u16PwmState = PWM_RAMP_OFF;
+                }
+#endif
                 break;
             case PWM_RAMP_OFF:
                 u16PwmDutyTemp = u16PwmDutyTarget;
@@ -132,8 +144,11 @@ ISR(TCB0_INT_vect)
                 TCA0.SINGLE.CTRLB = 0x00;       // disabled PWM function
                 u16PwmState = PWM_OFF_DELAY;
                 i16Cnt = 0;
+                System_State_Struc_t.bPwmOffDelay = false;
+                System_State_Struc_t.bPwmOnDelayTimeOut =false;
                 break;
             case PWM_OFF_DELAY:
+#if 0
                 if(i16Cnt > T_HOLD_DULL)
                 {
                    u16PwmState =  PWM_RAMP_ON;
@@ -143,6 +158,15 @@ ISR(TCB0_INT_vect)
                 {
                     i16Cnt++;
                 }
+#else
+                System_State_Struc_t.bPwmOffDelay = true;
+                if(System_State_Struc_t.bPwmOnDelayTimeOut == true)
+                {
+                    System_State_Struc_t.bPwmOffDelay = false;
+                    System_State_Struc_t.bPwmOnDelayTimeOut = false;
+                    u16PwmState =  PWM_RAMP_ON;
+                }
+#endif
                 break;                
             default:
                 break;

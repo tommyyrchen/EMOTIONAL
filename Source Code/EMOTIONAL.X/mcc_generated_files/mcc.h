@@ -36,6 +36,7 @@ extern "C" {
 #include "include/tca0.h"
 #include "config/clock_config.h"
 #include "include/nvmctrl.h"
+#include "include/rtc.h"
 
 enum SYSTEM_STATE_ENUM
 {
@@ -71,6 +72,12 @@ struct System_State_StrucT
     volatile bool bPowerOnTimeOut;
     volatile uint8_t u8SleepCnt;
     volatile bool bSleep;
+    volatile uint8_t u8PwmOnDelay;
+    volatile uint8_t u8PwmOffDelay;
+    volatile bool bPwmOnDelay;
+    volatile bool bPwmOnDelayTimeOut;
+    volatile bool bPwmOffDelay;
+    volatile bool bPwmOffDelayTimeOut;
 }System_State_Struc_t;
 
 #define BATTERY_LOW_VOLTAGE         2341    // (0.98/3.43) x 1024 x 8

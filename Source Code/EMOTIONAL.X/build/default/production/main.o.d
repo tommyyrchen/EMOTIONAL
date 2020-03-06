@@ -5,7 +5,7 @@ build/default/production/main.o.d build/default/production/main.o: main.c \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\inttypes.h \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\lib\gcc\avr\5.4.0\include\stdint.h \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\stdint.h \
- C:/Program\ Files\ (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/include/avr/iotn1616.h \
+ C:/Program\ Files\ (x86)/Microchip/MPLABX/v5.35/packs/Microchip/ATtiny_DFP/2.1.63/include/avr/iotn1616.h \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\avr\portpins.h \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\avr\common.h \
  c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\avr\version.h \
@@ -28,7 +28,8 @@ build/default/production/main.o.d build/default/production/main.o: main.c \
  mcc_generated_files/include/tcb0.h mcc_generated_files/include/tca0.h \
  mcc_generated_files/config/clock_config.h \
  mcc_generated_files/include/nvmctrl.h \
- c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\string.h
+ c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\string.h \
+ mcc_generated_files/include/rtc.h
 
 mcc_generated_files/mcc.h:
 
@@ -44,7 +45,7 @@ c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\lib\gcc\avr\5.4.0\include\stdin
 
 c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\stdint.h:
 
-C:/Program\ Files\ (x86)/Microchip/MPLABX/v5.30/packs/Microchip/ATtiny_DFP/2.0.10/include/avr/iotn1616.h:
+C:/Program\ Files\ (x86)/Microchip/MPLABX/v5.35/packs/Microchip/ATtiny_DFP/2.1.63/include/avr/iotn1616.h:
 
 c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\avr\portpins.h:
 
@@ -95,3 +96,5 @@ mcc_generated_files/config/clock_config.h:
 mcc_generated_files/include/nvmctrl.h:
 
 c:\program\ files\ (x86)\microchip\xc8\v2.10\avr\avr\include\string.h:
+
+mcc_generated_files/include/rtc.h:

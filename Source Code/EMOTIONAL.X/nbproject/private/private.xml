@@ -8,9 +8,10 @@
             <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/main.c</file>
             <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/adc0.c</file>
             <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/mcc.c</file>
-            <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/pin_manager.c</file>
             <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/tca0.c</file>
-            <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/include/pin_manager.h</file>
+            <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/src/rtc.c</file>
+            <file>file:/C:/Program%20Files%20(x86)/Microchip/MPLABX/v5.35/packs/Microchip/ATtiny_DFP/2.1.63/include/avr/iotn1616.h</file>
+            <file>file:/C:/Work/Test/EMOTIONAL/Source%20Code/EMOTIONAL.X/mcc_generated_files/mcc.h</file>
         </group>
     </open-files>
 </project-private>
