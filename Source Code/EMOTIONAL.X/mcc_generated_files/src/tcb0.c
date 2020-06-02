@@ -58,7 +58,7 @@ void TCB0_SetCaptIsrCallback(TCB0_cb_t cb)
 ISR(TCB0_INT_vect)
 {
 	/* Insert your TCB interrupt handling code */
-    PORTB_OUTSET = 0x20;
+    //PORTB_OUTSET = 0x20;
     //PWM_SetHigh();
 #if 0
     /* Motor Control Function */
@@ -673,7 +673,7 @@ ISR(TCB0_INT_vect)
         } 
     
 	TCB0.INTFLAGS = TCB_CAPT_bm;
-    PORTB_OUTCLR = 0x20;
+    //PORTB_OUTCLR = 0x20;
     //PWM_SetLow();
 }
 
@@ -683,7 +683,7 @@ ISR(TCB0_INT_vect)
 int8_t TCB0_Initialize()
 {
     //Compare or Capture
-    TCB0.CCMP = 0x1F3;
+    TCB0.CCMP = 0x1E7;
 
     //Count
     TCB0.CNT = 0x00;

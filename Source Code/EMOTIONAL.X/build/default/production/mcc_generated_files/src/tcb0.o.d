@@ -34,6 +34,7 @@ build/default/production/mcc_generated_files/src/tcb0.o.d \
  mcc_generated_files/src/../config/clock_config.h \
  mcc_generated_files/src/../include/nvmctrl.h \
  c:\program\ files\microchip\xc8\v2.20\avr\avr\include\string.h \
+ mcc_generated_files/src/../include/rtc.h \
  mcc_generated_files/src/../include/adc0.h
 
 mcc_generated_files/src/../include/tcb0.h:
@@ -103,5 +104,7 @@ mcc_generated_files/src/../config/clock_config.h:
 mcc_generated_files/src/../include/nvmctrl.h:
 
 c:\program\ files\microchip\xc8\v2.20\avr\avr\include\string.h:
+
+mcc_generated_files/src/../include/rtc.h:
 
 mcc_generated_files/src/../include/adc0.h:

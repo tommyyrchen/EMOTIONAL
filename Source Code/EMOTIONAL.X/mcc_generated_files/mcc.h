@@ -36,6 +36,7 @@ extern "C" {
 #include "config/clock_config.h"
 #include "include/nvmctrl.h"
 
+    
 enum SYSTEM_STATE_ENUM
 {
     SYSTEM_INIT = 0,

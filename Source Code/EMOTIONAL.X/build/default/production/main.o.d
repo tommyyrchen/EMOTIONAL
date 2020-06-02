@@ -28,7 +28,8 @@ build/default/production/main.o.d build/default/production/main.o: main.c \
  mcc_generated_files/include/tcb0.h \
  mcc_generated_files/config/clock_config.h \
  mcc_generated_files/include/nvmctrl.h \
- c:\program\ files\microchip\xc8\v2.20\avr\avr\include\string.h
+ c:\program\ files\microchip\xc8\v2.20\avr\avr\include\string.h \
+ mcc_generated_files/include/rtc.h
 
 mcc_generated_files/mcc.h:
 
@@ -93,3 +94,5 @@ mcc_generated_files/config/clock_config.h:
 mcc_generated_files/include/nvmctrl.h:
 
 c:\program\ files\microchip\xc8\v2.20\avr\avr\include\string.h:
+
+mcc_generated_files/include/rtc.h:
