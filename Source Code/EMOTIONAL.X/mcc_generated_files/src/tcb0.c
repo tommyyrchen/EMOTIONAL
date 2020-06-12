@@ -27,19 +27,28 @@
 #include "../include/adc0.h"
 
 volatile int16_t i16Cnt = 0;
+volatile uint16_t u16PwmPeriodTemp = 0;
 volatile uint16_t u16PwmDutyTemp = 0;
 volatile uint16_t u16PwmDutyStep = 0;
 volatile uint16_t u16PwmDutyTarget = PWM_DUTY_DEFAULT;
 volatile uint16_t u16PwmState = PWM_OFF;
 volatile uint16_t u16PwmMode = PWM_MODE_DEFAULT;
+volatile uint16_t u16PwmPDupdateTemp = PWM_MODE_DEFAULT;
 volatile uint8_t u8Cnt = 0;
+volatile uint8_t u8Step = 0;
+volatile uint8_t u8StepOld = 0;
+volatile uint8_t u8PwmOnFlag = 0;
+volatile uint16_t u16PwmOnDelay = 0;
+volatile uint8_t u8PwmOffFlag = 0;
+volatile uint16_t u16PwmOffDelay = 0;
 
-volatile uint16_t u16PwmParameter[20][20] =
+volatile uint16_t u16PwmParameter[23][2] =
 {
-    {260, 0}, {260, 13}, {260, 26}, {260, 39}, {260, 52},
-    {260, 65}, {260, 78}, {260, 91}, {260, 104}, {260, 117},
-    {260, 130}, {260, 143}, {260, 156}, {260, 169}, {260, 182},
-    {260, 195}, {260, 208}, {260, 221}, {260, 234}, {260, 247}
+    {135,250},	{153,250},	{173,250},	{211,250},	{220,250},
+    {248,250},	{250,225},	{250,200},	{250,177},	{250,157},
+    {250,138},	{250,121},	{120.106},	{250,92},	{250,80},
+    {250,67},	{250,55},	{250,45},	{250,34},	{250,25},
+    {250,16},	{250,8},	{250,0}
 };
 
 /**
@@ -60,6 +69,7 @@ ISR(TCB0_INT_vect)
 	/* Insert your TCB interrupt handling code */
     //PORTB_OUTSET = 0x20;
     //PWM_SetHigh();
+    //PORTB_OUTTGL = 0x20;
 #if 0
     /* Motor Control Function */
     
@@ -68,36 +78,53 @@ ISR(TCB0_INT_vect)
         switch (u16PwmState)
         {
             case PWM_RAMP_ON:
-                TCA0.SINGLE.CMP1 = PWM_DUTY_MIN;
+                //TCA0.SINGLE.CMP1 = PWM_DUTY_MIN;
                 TCA0.SINGLE.CTRLB = 0x2B;
+			#if 1
+				u16PwmDutyTarget = u16PwmParameter[u16PwmPDupdateTemp][0];
+				u16PwmPeriodTemp = u16PwmParameter[u16PwmPDupdateTemp][0] + u16PwmParameter[u16PwmPDupdateTemp][1];
+			#endif
                 u16PwmDutyTemp = 0;
-                u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                u16PwmDutyStep = u16PwmDutyTarget >> 3;
                 u16PwmState = PWM_RAMP_ON_DELAY;
-                
                 u8Cnt = 0;
                 break;
             case PWM_RAMP_ON_DELAY:
                 if(u8Cnt < SS_CNT)
                 {
                     u8Cnt++;
-                    if(u16PwmDutyTemp < u16PwmDutyTarget)
-                    {
-                        u16PwmDutyTemp = u16PwmDutyTemp + u16PwmDutyStep;
-                    }
-                    else
-                    {
-                        u16PwmDutyTemp = u16PwmDutyTarget;
-                    }
+					u8Step = u8Cnt / 10;
+					
+					if(u8StepOld != u8Step)
+					{
+	                    if(u16PwmDutyTemp < u16PwmDutyTarget)
+	                    {
+	                        u16PwmDutyTemp = u16PwmDutyTemp + u16PwmDutyStep;
+	                    }
+	                    else
+	                    {
+	                        u16PwmDutyTemp = u16PwmDutyTarget;
+	                    }
+					}
+					u8StepOld = u8Step;
                 }
                 else
                 {
                     u16PwmDutyTemp = u16PwmDutyTarget;
                     u16PwmState = PWM_ON;
                 }                
-                TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
+                TCA0.SINGLE.CMP1 = u16PwmDutyTemp * 125;
+			#if 1
+				TCA0.SINGLE.PER = u16PwmPeriodTemp * 125;
+			#endif
                 break;
             case PWM_ON:
+				//PORTB_OUTSET = 0x20;
+				#if 0
                 TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
+				#else
+				TCA0.SINGLE.CMP1 = u16PwmDutyTemp * 125;
+				#endif
                 u16PwmState = PWM_ON_DELAY;
                 i16Cnt = 0;
                 break;
@@ -114,29 +141,44 @@ ISR(TCB0_INT_vect)
                 break;
             case PWM_RAMP_OFF:
                 u16PwmDutyTemp = u16PwmDutyTarget;
-                u16PwmDutyStep = u16PwmDutyTarget >> 2;
+                u16PwmDutyStep = u16PwmDutyTarget >> 3;
                 u16PwmState = PWM_RAMP_OFF_DELAY;
                 
                 u8Cnt = 0;
                 break;
             case PWM_RAMP_OFF_DELAY:
-                if(u8Cnt < (SS_CNT-1))
+                //if(u8Cnt < (SS_CNT-1))
+                if(u8Cnt < SS_CNT)
                 {
                     u8Cnt++;
+                #if 0
                     if(u16PwmDutyTemp > u16PwmDutyStep)
                     {
                         u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
                     }
+				#else
+					u8Step = u8Cnt / 10;
+					
+					if(u8StepOld != u8Step)
+					{
+						if(u16PwmDutyTemp > u16PwmDutyStep)
+						{
+							u16PwmDutyTemp = u16PwmDutyTemp - u16PwmDutyStep;
+						}
+
+					}
+					u8StepOld = u8Step;				
+				#endif
                 }
                 else
                 {
-                    u16PwmDutyTemp = PWM_DUTY_MIN;
+                    //u16PwmDutyTemp = PWM_DUTY_MIN;
+                    u16PwmDutyTemp = 1;
                     u16PwmState = PWM_OFF;                   
                 }
-                TCA0.SINGLE.CMP1 = u16PwmDutyTemp;
+                TCA0.SINGLE.CMP1 = u16PwmDutyTemp * 125;
                 break;
             case PWM_OFF:
-//                PORTB_OUTSET = 0x20;
                 TCA0.SINGLE.CMP1 = 0x00;        // set PWM duty = 0;
                 TCA0.SINGLE.CTRLB = 0x00;       // disabled PWM function
                 u16PwmState = PWM_OFF_DELAY;
@@ -164,35 +206,29 @@ ISR(TCB0_INT_vect)
         u16PwmState = PWM_RAMP_ON;
     }
 #else
-    if(System_State_Struc_t.bPWM_ON == true)
-    {
-        switch (u16PwmState)
-        {
-            case PWM_RAMP_ON:
-                break;
-            case PWM_RAMP_ON_DELAY:
-                break;
-            case PWM_ON:
-                break;
-            case PWM_ON_DELAY:
-                break;
-            case PWM_RAMP_OFF:
-                break;
-            case PWM_RAMP_OFF_DELAY:
-                break;
-            case PWM_OFF:
-                break;
-            case PWM_OFF_DELAY:
-                break;                
-            default:
-                break;
-        }        
-    }
-    else
-    {
-        u16PwmState = PWM_RAMP_ON;
-        //PWM_SetLow();
-    }
+	if(u8PwmOnFlag == 1)
+	{
+		if(u16PwmOnDelay < T_HOLD_BRIGHT)
+		{
+			u16PwmOnDelay++;
+		}
+	}
+	else
+	{
+		u16PwmOnDelay = 0;
+	}
+
+	if(u8PwmOffFlag == 1)
+	{
+		if(u16PwmOffDelay < T_HOLD_DULL)
+		{
+			u16PwmOffDelay++;
+		}
+	}
+	else
+	{
+		u16PwmOffDelay = 0;
+	}
 #endif
 
 #if 1
@@ -215,13 +251,13 @@ ISR(TCB0_INT_vect)
             LED_Struct_t.u8Times = 0;
             break;
         case LED_GREEN_BLINK_2HZ:
-            if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+            if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
             {
-                LED_Struct_t.u8Delay++;
+                LED_Struct_t.u16Delay++;
             }
             else
             {
-                LED_Struct_t.u8Delay = 0;
+                LED_Struct_t.u16Delay = 0;
                 IO_PC0_SetHigh();
                 IO_PC1_Toggle();                
             }
@@ -230,13 +266,13 @@ ISR(TCB0_INT_vect)
         case LED_GREEN_BLINK_2HZ_1_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_1_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -260,13 +296,13 @@ ISR(TCB0_INT_vect)
         case LED_GREEN_BLINK_2HZ_2_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_2_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -290,13 +326,13 @@ ISR(TCB0_INT_vect)
         case LED_GREEN_BLINK_2HZ_3_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_3_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -320,13 +356,13 @@ ISR(TCB0_INT_vect)
         case LED_GREEN_BLINK_2HZ_4_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_4_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -350,13 +386,13 @@ ISR(TCB0_INT_vect)
         case LED_GREEN_BLINK_2HZ_5_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_5_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -385,13 +421,13 @@ ISR(TCB0_INT_vect)
         case LED_ORANGE_BLINK_2HZ_1_TIMES:
             if(LED_Struct_t.u8Times < LED_BLINK_2HZ_1_TIMES)
             {
-                if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+                if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
                 {
-                    LED_Struct_t.u8Delay++;
+                    LED_Struct_t.u16Delay++;
                 }
                 else
                 {
-                    LED_Struct_t.u8Delay = 0;
+                    LED_Struct_t.u16Delay = 0;
                     LED_Struct_t.u8Times++;               
                 }
                 if((LED_Struct_t.u8Times & 0x01) == 0)
@@ -418,13 +454,13 @@ ISR(TCB0_INT_vect)
             LED_Struct_t.u8Times = 0;
             break;
         case LED_RED_BLINK_2HZ:
-            if(LED_Struct_t.u8Delay < LED_BLINK_2HZ_DELAY)
+            if(LED_Struct_t.u16Delay < LED_BLINK_2HZ_DELAY)
             {
-                LED_Struct_t.u8Delay++;
+                LED_Struct_t.u16Delay++;
             }
             else
             {
-                LED_Struct_t.u8Delay = 0;
+                LED_Struct_t.u16Delay = 0;
                 IO_PC0_Toggle();
                 IO_PC1_SetHigh();                
             }
@@ -647,9 +683,9 @@ ISR(TCB0_INT_vect)
 #if 1
     if(System_State_Struc_t.u8MainState == SYSTEM_POWER_OFF)
     {
-        if(System_State_Struc_t.u8SleepCnt < SYSTEM_SLEEP_CNT)
+        if(System_State_Struc_t.u16SleepCnt < SYSTEM_SLEEP_CNT)
         {
-            System_State_Struc_t.u8SleepCnt++;
+            System_State_Struc_t.u16SleepCnt++;
         }
         else
         {
@@ -658,7 +694,7 @@ ISR(TCB0_INT_vect)
     }
     else
     {
-        System_State_Struc_t.u8SleepCnt = 0;
+        System_State_Struc_t.u16SleepCnt = 0;
     }
 #endif
     
@@ -683,7 +719,7 @@ ISR(TCB0_INT_vect)
 int8_t TCB0_Initialize()
 {
     //Compare or Capture
-    TCB0.CCMP = 0x1E7;
+    TCB0.CCMP = 0xF9F;
 
     //Count
     TCB0.CNT = 0x00;
@@ -706,8 +742,8 @@ int8_t TCB0_Initialize()
     //Temporary Value
     TCB0.TEMP = 0x00;
 
-    //RUNSTDBY disabled; SYNCUPD enabled; CLKSEL CLKDIV1; ENABLE enabled; 
-    TCB0.CTRLA = 0x11;
+    //RUNSTDBY disabled; SYNCUPD enabled; CLKSEL CLKTCA; ENABLE enabled; 
+    TCB0.CTRLA = 0x05;
 
     return 0;
 }

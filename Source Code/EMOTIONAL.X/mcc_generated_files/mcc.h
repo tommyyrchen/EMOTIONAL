@@ -33,6 +33,7 @@ extern "C" {
 #include "include/adc0.h"
 #include "include/cpuint.h"
 #include "include/tcb0.h"
+#include "include/tca0.h"
 #include "config/clock_config.h"
 #include "include/nvmctrl.h"
 
@@ -69,14 +70,14 @@ struct System_State_StrucT
     volatile uint8_t u8BatteryLowDelay;
     volatile uint32_t u32PowerOnTimeOutDelay;
     volatile bool bPowerOnTimeOut;
-    volatile uint8_t u8SleepCnt;
+    volatile uint16_t u16SleepCnt;
     volatile bool bSleep;
 }System_State_Struc_t;
 
 #define BATTERY_LOW_VOLTAGE         2341    // (0.98/3.43) x 1024 x 8
 #define BATTERY_ULTRA_LOW_VOLTAGE   2233    // (0.935/3.43) x 1024 x 8
 
-#define SYSTEM_SLEEP_CNT            100      // 1000ms/10ms
+#define SYSTEM_SLEEP_CNT            1000      // 1000ms/1ms
 /**
  * Initializes MCU, drivers and middleware in the project
 **/

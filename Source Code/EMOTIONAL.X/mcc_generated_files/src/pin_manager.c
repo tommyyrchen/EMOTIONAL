@@ -128,7 +128,7 @@ void PORTC_SW_POWER_DefaultInterruptHandler(void)
     // or set custom function using PORTC_SW_POWER_SetInterruptHandler()
     
     System_State_Struc_t.bSleep =false;
-    System_State_Struc_t.u8SleepCnt = 0;
+    System_State_Struc_t.u16SleepCnt = 0;
 }
 /**
   Allows selecting an interrupt handler for PORTA_PA5 at application runtime

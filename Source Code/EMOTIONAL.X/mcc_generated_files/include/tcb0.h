@@ -30,41 +30,62 @@
 extern "C" {
 #endif
 
-#define T_HOLD_BRIGHT   173     //1728ms/10ms
-#define T_HOLD_DULL     315     //3152ms/10ms
-#define SS_CNT          4    
+#define T_HOLD_BRIGHT   1728     //1728ms/1ms
+#define T_HOLD_DULL     3152     //3152ms/1ms
+#define SS_CNT          80    
     
-#define LED_BLINK_2HZ_DELAY 50  // 500ms/10ms
+#define LED_BLINK_2HZ_DELAY 500  // 500ms/1ms
 #define LED_BLINK_2HZ_1_TIMES   2   // 2n
 #define LED_BLINK_2HZ_2_TIMES   4   // 2n
 #define LED_BLINK_2HZ_3_TIMES   6   // 2n
 #define LED_BLINK_2HZ_4_TIMES   8   // 2n
 #define LED_BLINK_2HZ_5_TIMES   10  // 2n
     
-#define SW_POWER_DELAY  15       // 150ms/10ms
-#define SW_MODE_DELAY   15       // 150ms/10ms
-#define SW_MODE_RESET_DELAY 500     // 5000ms/10ms
-#define SW_MS_DELAY         500     // 5000ms/10ms
-#define SW_MS_RESET_DELAY   3000    // 30000ms/10ms
-#define BATTERY_LOW_DELAY   20      // 200ms/10ms
-#define POWER_OFF_DELAY     180000  // 30 minutes = (30 x 60 x 1000)ms/10ms
+#define SW_POWER_DELAY  150       // 150ms/1ms
+#define SW_MODE_DELAY   150       // 150ms/1ms
+#define SW_MODE_RESET_DELAY 5000     // 5000ms/1ms
+#define SW_MS_DELAY         5000     // 5000ms/1ms
+#define SW_MS_RESET_DELAY   30000    // 30000ms/1ms
+#define BATTERY_LOW_DELAY   200      // 200ms/1ms
+#define POWER_OFF_DELAY     1800000  // 30 minutes = (30 x 60 x 1000)ms/1ms
 
 #define SW_MS_COUNT		7
-#define SW_MS_TIMEIOUT_COUNT	200	// 2000ms/10ms
-#define SW_MS_OUT_COUNT			300 // 3000ms/10ms
+#define SW_MS_TIMEIOUT_COUNT	2000	// 2000ms/1ms
+#define SW_MS_OUT_COUNT			3000	// 3000ms/1ms
 
+#if 0
 #define PWM_DUTY_DEFAULT (1249)    // 50% ==> 1250/2500    
 #define PWM_MODE_DEFAULT 0
 #define PWM_DUTY_MIN        375     // 1.5ms ==> 0.0015 x 250,000
 #define PWM_DUTY_MAX        2475    // 9.9ms ==> 0.0099 x 250,000
-    
+#else
+#define PWM_PERIOD_DEFAULT	(int16_t)( (int16_t)125 * (int16_t)(250+0) )
+#define PWM_DUTY_DEFAULT 	(int16_t)( (int16_t)125 * (int16_t)(250+0) )
+#define PWM_MODE_DEFAULT 	0
+#define PWM_DUTY_MIN        375     // 1.5ms ==> 0.0015 x 250,000
+#define PWM_DUTY_MAX        2475    // 9.9ms ==> 0.0099 x 250,000
+#endif
+
 volatile extern int16_t i16Cnt;
+volatile extern uint16_t u16PwmPeriodTemp;
 volatile extern uint16_t u16PwmDutyTemp;
 volatile extern uint16_t u16PwmDutyStep;
 volatile extern uint16_t u16PwmDutyTarget;
 
 volatile extern uint16_t u16PwmState;
 volatile extern uint16_t u16PwmMode;
+volatile extern uint16_t u16PwmPDupdateTemp;
+
+volatile extern uint16_t u16PwmParameter[23][2];
+
+volatile extern uint8_t u8PwmOnFlag;
+volatile extern uint16_t u16PwmOnDelay;
+volatile extern uint8_t u8PwmOffFlag;
+volatile extern uint16_t u16PwmOffDelay;
+
+volatile extern uint8_t u8Cnt;
+volatile extern uint8_t u8Step;
+
 
 enum PWM_CONTROL_NNUM
 {
@@ -122,7 +143,7 @@ struct LED_Struct
 {
     volatile uint8_t u8LedState;
     volatile uint8_t u8PreLedState;
-    volatile uint8_t u8Delay;
+    volatile uint16_t u16Delay;
     volatile uint8_t u8Times;
 }LED_Struct_t;
 

@@ -35,6 +35,7 @@ void SYSTEM_Initialize(void)
     SLPCTRL_Initialize();
     ADC0_Initialize();
     FLASH_Initialize();
+    TCA0_Initialize();
     CPUINT_Initialize();
     TCB0_Initialize();
 }

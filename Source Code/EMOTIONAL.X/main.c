@@ -43,12 +43,12 @@ int main(void)
     System_State_Struc_t.bBatteryUltraLow = false;
     System_State_Struc_t.bPWM_ON = false;
     System_State_Struc_t.bSleep = false;
-    System_State_Struc_t.u8SleepCnt = 0;
+    System_State_Struc_t.u16SleepCnt = 0;
     
     u8Temp = FLASH_ReadEepromByte(0x00);
     if(u8Temp == 0xFF)
     {
-        u16PwmMode = 20;
+        u16PwmMode = 22;
     }
     else
     {
@@ -57,6 +57,8 @@ int main(void)
     
     /* Replace with your application code */
     while (1){
+		//PORTB_OUTTGL = 0x20;
+		
         switch(System_State_Struc_t.u8MainState)
         {
             case SYSTEM_INIT:
@@ -112,11 +114,15 @@ int main(void)
                         {
                             LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ_5_TIMES;
                         }
-                        //u16PwmMode = PWM_MODE_DEFAULT + 4;
-                        //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
+
+						#if 0
                         i16Temp = u16PwmMode;
-                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
                         u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
+						#else
+						i16Temp = u16PwmMode;
+						u16PwmPDupdateTemp = i16Temp;
+						#endif
+						
                         break;
                     case SYSTEM_SUB_MODE_1:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -127,11 +133,15 @@ int main(void)
                         {
                             LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ_1_TIMES;
                         }
-                        //u16PwmMode = PWM_MODE_DEFAULT;
-                        //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
+
+						#if 0
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 3);
-                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
                         u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
+						#else
+						i16Temp = (int16_t)((int16_t)u16PwmMode - 3);
+						u16PwmPDupdateTemp = i16Temp;
+						#endif
+						
                         break;
                     case SYSTEM_SUB_MODE_2:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -142,11 +152,13 @@ int main(void)
                         {                        
                             LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ_2_TIMES;
                         }
-//                        u16PwmMode = PWM_MODE_DEFAULT + 1;
-//                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
+						#if 0
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 2);
-                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
                         u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
+						#else
+						i16Temp = (int16_t)((int16_t)u16PwmMode - 2);
+						u16PwmPDupdateTemp = i16Temp;
+						#endif
                         break;
                     case SYSTEM_SUB_MODE_3:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -157,11 +169,13 @@ int main(void)
                         {                        
                             LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ_3_TIMES;
                         }
-//                        u16PwmMode = PWM_MODE_DEFAULT + 2;
-//                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
+						#if 0
                         i16Temp = (int16_t)((int16_t)u16PwmMode - 1);
-                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
                         u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
+						#else
+						i16Temp = (int16_t)((int16_t)u16PwmMode - 1);
+						u16PwmPDupdateTemp = i16Temp;
+						#endif
                         break;
                     case SYSTEM_SUB_MODE_4:
                         if(System_State_Struc_t.bBatteryLow == true)
@@ -172,11 +186,13 @@ int main(void)
                         {                        
                             LED_Struct_t.u8LedState = LED_GREEN_BLINK_2HZ_4_TIMES;
                         }
-//                        u16PwmMode = PWM_MODE_DEFAULT + 3;
-//                        u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode << 3);
+						#if 0
                         i16Temp = u16PwmMode;
-                        //u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 8);
                         u16PwmDutyTarget = (int16_t)PWM_DUTY_DEFAULT + (int16_t)(i16Temp * 62);
+						#else
+						i16Temp = u16PwmMode;
+						u16PwmPDupdateTemp = i16Temp;
+						#endif
                         break;
                     default:
                         break;
@@ -247,25 +263,25 @@ int main(void)
                 if(SW_Struct_t.bSWPower == true)
                 {
                     SW_Struct_t.bSWPower = false;
-                    if(u16PwmMode < 20)
+                    if(u16PwmMode < 22)
                     {
                         u16PwmMode++;
                     }
                     else
                     {
-                        u16PwmMode = 20;
+                        u16PwmMode = 22;
                     }
                 }
                 else if(SW_Struct_t.bSWMode == true)
                 {
                     SW_Struct_t.bSWMode = false;
-                    if(u16PwmMode > 0)
+                    if(u16PwmMode > 3)
                     {
                         u16PwmMode--;
                     }
                     else
                     {
-                        u16PwmMode = 0;
+                        u16PwmMode = 3;
                     }
                 }
                 //else if(SW_Struct_t.bSwMS == true)
@@ -292,9 +308,13 @@ int main(void)
                 }
 
 				//SW_Struct_t.u8SwMSCount = 0;
-				
+
+				#if 0
                 //u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 8);
                 u16PwmDutyTarget = PWM_DUTY_DEFAULT + (u16PwmMode * 62);
+				#else
+				u16PwmPDupdateTemp = u16PwmMode;
+				#endif
                 
                 ccp_write_io((void*)&(SLPCTRL.CTRLA),0x00);                
                 break;
@@ -310,6 +330,15 @@ int main(void)
             default:
                 break;
         }
+
+		if(u16PwmPDupdateTemp > 22)
+		{
+			u16PwmPDupdateTemp = 22;
+		}
+		else if(u16PwmPDupdateTemp < 0)
+		{
+			u16PwmPDupdateTemp = 0;
+		}
     }
 }
 /**
